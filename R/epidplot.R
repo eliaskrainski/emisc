@@ -90,12 +90,14 @@ epidplot <-
     }
     if (show[2]) {
       plot(x, df1, type='l',
+           xlim=range(0, df1, na.rm=TRUE),
            xlab=lxlab[[2]],
            ylab=lylab[[2]], ...)
       abline(h=0, lty=2, col=gray(0.5, 0.5))
     }
     if (show[3]) {
       plot(x, df2, type='l',
+           xlim=range(0, df2, na.rm=TRUE),
            xlab=lxlab[[2]],
            ylab=lylab[[3]], ...)
       abline(h=0, lty=2, col=gray(0.5, 0.5))
