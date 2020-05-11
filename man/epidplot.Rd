@@ -11,7 +11,7 @@ epidplot(
   leg.args = list(x = "topleft", legend = c("accumulated", "new", "smoothed new"), col
     = c(1, 2, 2), pch = c(19, 8, NA), lty = c(NA, NA, 1), bty = "n"),
   lxlab = list("", "", ""),
-  lylab = list("Cases", "Growth rate", "Growth rate velocity"),
+  lylab = list("Cases", "Absolute growth", "Growth velocity"),
   ask = prod(par("mfcol")) < length(which) && dev.interactive(),
   ...
 )

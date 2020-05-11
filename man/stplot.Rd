@@ -4,7 +4,19 @@
 \alias{stplot}
 \title{stplot}
 \usage{
-stplot(x, sp, d, col, ce, tsub = 3, ex = 1, ey = 1, verbose = FALSE, ...)
+stplot(
+  x,
+  sp,
+  d,
+  col,
+  ce,
+  tsub = 3,
+  ex = 1,
+  ey = 1,
+  leg.labs = list(x = "topleft", legend = rowNames(x), col = col, lty = 1, lwd = 2),
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{a matrix with each column containing data
@@ -35,6 +47,8 @@ the x-axis extent}
 
 \item{ey}{is a relative expansion factor for
 the y-axis extent}
+
+\item{leg.labs}{legend parameters}
 
 \item{verbose}{logical to specify if some steps
 are being reported during the process work}

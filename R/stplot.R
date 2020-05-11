@@ -21,12 +21,17 @@
 #' the x-axis extent
 #' @param ey is a relative expansion factor for
 #' the y-axis extent
+#' @param leg.labs legend parameters
 #' @param verbose logical to specify if some steps
 #' are being reported during the process work
 #' @param ... additional arguments passed to
 #' \code{line} used to plot each time series.
 stplot <- function(x, sp, d, col, ce,
                    tsub=3, ex=1, ey=1,
+                   leg.labs=list(
+                     x='topleft',
+                     legend=rowNames(x),
+                     col=col, lty=1, lwd=2),
                    verbose=FALSE, ...) {
   n <- nrow(x)
   p <- ncol(x)
@@ -53,6 +58,7 @@ stplot <- function(x, sp, d, col, ce,
       ox[ox.ok]/nc,
       1-2*abs(ox[ox.ok]-(0.5+nc/2))/nc,
       1-ox[ox.ok]/nc)
+    leg.args$col <- col
   }
   yl <- range(x, na.rm=TRUE)
   ry <- diff(yl)
@@ -74,6 +80,10 @@ stplot <- function(x, sp, d, col, ce,
         mean(b[2,])
       yi <- yi-mean(yi)+ce[i, 2]
       lines(xi, yi, col=col[i], ...)
+      leg.labs$legend[i] <- paste0(
+        leg.labs$legend[i], ': ',
+        paste(format(range(yi, na.rm=TRUE)),
+               collapse='-'))
     }
   } else {
     g <- GridTopology(b[,1]+r/(2*d), r/d, d)
@@ -100,5 +110,6 @@ stplot <- function(x, sp, d, col, ce,
       }
     }
   }
+  do.call('legend', leg.labs)
   invisible()
 }
