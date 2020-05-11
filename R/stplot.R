@@ -37,7 +37,7 @@ stplot <- function(x, sp, d, col, ce,
   if (!any(names(leg.args)=='legend')) {
     rrxx <- apply(x, 1, range, na.rm=TRUE)
     leg.args$legend <- paste0(
-      rownames(x),
+      rownames(x), '',
       format(rrxx[1,], digits = 1),
       ': ',
       format(rrxx[2,], digits = 1)
