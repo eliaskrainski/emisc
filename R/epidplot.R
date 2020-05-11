@@ -77,8 +77,8 @@ epidplot <-
            col=leg.args$col[1], axes=FALSE,
            xlab=lxlab[[1]],
            ylab=lylab[[1]], ...)
-      axis(1, xl$x, xl$l, las=2)
-      axis(2, yl$y, yl$l, las=1)
+      axis(1, xl$x, xl$l)
+      axis(2, yl$y, yl$l)
       points(x, log(ifelse(dy==0, y0, dy), logbase),
              pch=leg.args$pch[2],
              col=leg.args$col[2])
