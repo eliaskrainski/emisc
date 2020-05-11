@@ -59,7 +59,7 @@ stplot <- function(x, sp, d, col, ce,
   if (missing(d)) {
     if (missing(ce))
       ce <- coordinates(sp)
-    plot(sp, border=gray(.5))
+    sp::plot(sp, border=gray(.5))
     ss <- sqrt(mean(sapply(
       1:length(sp@polygons), function(i)
         sp@polygons[[i]]@area)))*0.5
@@ -86,8 +86,8 @@ stplot <- function(x, sp, d, col, ce,
     for (i in 1:prod(d)) {
       jj <- which(i==isg)
       gi <- G[i, ]
-      plot(gi, asp=0, border=gray(.7), lty=2)
-      plot(sp, add=TRUE, border=gray(.3))
+      sp::plot(gi, asp=0, border=gray(.7), lty=2)
+      sp::plot(sp, add=TRUE, border=gray(.3))
       xyll <- bbox(gi)[c(1,3,2,4)]
       xx <- seq(xyll[1], xyll[2], length=p)
       if (length(jj)>0) {
