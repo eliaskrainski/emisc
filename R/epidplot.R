@@ -34,7 +34,8 @@ epidplot <-
              lty=c(NA, NA, 1),
              bty='n'),
            lxlab=list('', '', ''),
-           lylab=list('Cases', 'Growth rate', 'Growth rate velocity'),
+           lylab=list('Cases', 'Absolute growth',
+                      'Growth velocity'),
            ask = prod(par("mfcol")) < length(which) &&
              dev.interactive(),
            ...)
