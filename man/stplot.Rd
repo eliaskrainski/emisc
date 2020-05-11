@@ -13,7 +13,7 @@ stplot(
   tsub = 3,
   ex = 1,
   ey = 1,
-  leg.labs = list(x = "topleft", legend = rowNames(x), col = col, lty = 1, lwd = 2),
+  leg.labs = list(x = "topleft", legend = rownames(x), col = col, lty = 1, lwd = 2),
   verbose = FALSE,
   ...
 )

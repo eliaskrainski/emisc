@@ -30,7 +30,7 @@ stplot <- function(x, sp, d, col, ce,
                    tsub=3, ex=1, ey=1,
                    leg.labs=list(
                      x='topleft',
-                     legend=rowNames(x),
+                     legend=rownames(x),
                      col=col, lty=1, lwd=2),
                    verbose=FALSE, ...) {
   n <- nrow(x)
