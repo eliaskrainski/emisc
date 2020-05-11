@@ -113,6 +113,6 @@ stplot <- function(x, sp, d, col, ce,
       }
     }
   }
-  do.call('legend', leg.labs)
+  do.call('legend', leg.args)
   invisible()
 }

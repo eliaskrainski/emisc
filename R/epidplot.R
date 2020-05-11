@@ -43,11 +43,11 @@ epidplot <-
     if (is.null(y)) {
       y <- x
       x <- 1:length(y)
-      xl <- list(x=pretty(x, 15))
+      xl <- list(x=pretty(x))
       xl$l <- xl$x
     } else {
-      xl <- list(x=pretty(x, 15))
-      xl$l <- format(xl$x, '%d%b')
+      xl <- list(x=pretty(x))
+      xl$l <- format(xl$x, '%b %d')
     }
     y <- cummax(y)
     logbase <- 10; y0 <- 0.3
