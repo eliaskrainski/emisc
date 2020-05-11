@@ -37,11 +37,11 @@ stplot <- function(x, sp, d, col, ce,
   if (!any(names(leg.args)=='legend')) {
     rrxx <- apply(x, 1, range, na.rm=TRUE)
     leg.args$legend <- paste0(
-      rownames(x), ': ',
+      rownames(x),
       format(rrxx[1,], digits = 1),
-      '-',
+      ': ',
       format(rrxx[2,], digits = 1)
-      )[order(rrxx[2,]-rrxx[1,])]
+      )[rev(order(rrxx[2,]-rrxx[1,]))]
   }
   if (missing(col)) {
     mx <- mean(x, na.rm=TRUE)
@@ -64,9 +64,9 @@ stplot <- function(x, sp, d, col, ce,
       ox[ox.ok]/nc,
       1-2*abs(ox[ox.ok]-(0.5+nc/2))/nc,
       1-ox[ox.ok]/nc)
-    if (!any(names(leg.args)=='col'))
-      leg.args$col <- col
   }
+  if (!any(names(leg.args)=='col'))
+    leg.args$col <- col
   yl <- range(x, na.rm=TRUE)
   ry <- diff(yl)
   if (missing(d)) {
