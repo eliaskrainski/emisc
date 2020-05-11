@@ -59,7 +59,6 @@ epidplot <-
     yl$l <- c(0, paste0(yl0*(logbase^(kk%%3)),
                         c('', 'K', 'M', 'B')[(kk%/%3)+1]))
     dy <- diff(c(0, y))
-    show <- 1:3 %in% which
     ff <- mgcv::gam(n ~ s(d), poisson(),
                     data=list(n=dy, d=as.numeric(x))
     )$fitted
@@ -71,6 +70,7 @@ epidplot <-
       oask <- devAskNewPage(TRUE)
       on.exit(devAskNewPage(oask))
     }
+    show <- 1:3 %in% which
     if (show[1]) {
       plot(x, log(ifelse(y==0, y0, y), logbase),
            pch=leg.args$pch[1],

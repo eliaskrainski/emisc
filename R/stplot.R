@@ -32,9 +32,9 @@ stplot <- function(x, sp, d, col, ce,
                      x='bottomleft',
                      legend=paste0(
                        rownames(x), ': ',
-                       paste(apply(x, 1, range,
-                                   na.rm=TRUE),
-                             collapse='-')),
+                       format(apply(x, 1, min, na.rm=TRUE)),
+                       '-',
+                       format(apply(x, 1, max, na.rm=TRUE))),
                      col=col, lty=1, lwd=2),
                    verbose=FALSE, ...) {
   n <- nrow(x)
