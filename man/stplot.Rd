@@ -13,9 +13,7 @@ stplot(
   tsub = 3,
   ex = 1,
   ey = 1,
-  leg.labs = list(x = "bottomleft", legend = paste0(rownames(x), ": ", format(apply(x,
-    1, min, na.rm = TRUE)), "-", format(apply(x, 1, max, na.rm = TRUE))), col = col, lty
-    = 1, lwd = 2),
+  leg.args = list(x = "bottomleft", lty = 1),
   verbose = FALSE,
   ...
 )
@@ -50,7 +48,7 @@ the x-axis extent}
 \item{ey}{is a relative expansion factor for
 the y-axis extent}
 
-\item{leg.labs}{legend parameters}
+\item{leg.args}{legend arguments}
 
 \item{verbose}{logical to specify if some steps
 are being reported during the process work}

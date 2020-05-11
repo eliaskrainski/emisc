@@ -21,26 +21,28 @@
 #' the x-axis extent
 #' @param ey is a relative expansion factor for
 #' the y-axis extent
-#' @param leg.labs legend parameters
+#' @param leg.args legend arguments
 #' @param verbose logical to specify if some steps
 #' are being reported during the process work
 #' @param ... additional arguments passed to
 #' \code{line} used to plot each time series.
 stplot <- function(x, sp, d, col, ce,
                    tsub=3, ex=1, ey=1,
-                   leg.labs=list(
-                     x='bottomleft',
-                     legend=paste0(
-                       rownames(x), ': ',
-                       format(apply(x, 1, min, na.rm=TRUE)),
-                       '-',
-                       format(apply(x, 1, max, na.rm=TRUE))),
-                     col=col, lty=1, lwd=2),
+                   leg.args=list(x='bottomleft', lty=1),
                    verbose=FALSE, ...) {
   n <- nrow(x)
   p <- ncol(x)
   b <- bbox(sp)
   r <- apply(b, 1, diff)
+  if (!any(names(leg.args)=='legend')) {
+    rrxx <- apply(x, 1, range, na.rm=TRUE)
+    leg.args$legend <- paste0(
+      rownames(x), ': ',
+      format(rrxx[1,], digits = 1),
+      '-',
+      format(rrxx[2,], digits = 1)
+      )[order(rrxx[2,]-rrxx[2,])]
+  }
   if (missing(col)) {
     mx <- mean(x, na.rm=TRUE)
     jsub <- sort(((0:(ncol(x)-1))%%tsub) + 1)
@@ -62,7 +64,8 @@ stplot <- function(x, sp, d, col, ce,
       ox[ox.ok]/nc,
       1-2*abs(ox[ox.ok]-(0.5+nc/2))/nc,
       1-ox[ox.ok]/nc)
-    leg.args$col <- col
+    if (!any(names(leg.args)=='col'))
+      leg.args$col <- col
   }
   yl <- range(x, na.rm=TRUE)
   ry <- diff(yl)
