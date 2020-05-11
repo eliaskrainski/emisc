@@ -41,7 +41,7 @@ stplot <- function(x, sp, d, col, ce,
       format(rrxx[1,], digits = 1),
       '-',
       format(rrxx[2,], digits = 1)
-      )[order(rrxx[2,]-rrxx[2,])]
+      )[order(rrxx[2,]-rrxx[1,])]
   }
   if (missing(col)) {
     mx <- mean(x, na.rm=TRUE)
