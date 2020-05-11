@@ -81,7 +81,7 @@ epidplot <-
       axis(2, yl$y, yl$l)
       points(x, log(ifelse(dy==0, y0, dy), logbase),
              pch=leg.args$pch[2],
-             col=leg.args$col[2])
+             col=leg.args$col[2], ...)
       lines(x, log(ff, logbase),
             lwd=leg.args$lwd[3],
             lty=leg.args$lty[3],
