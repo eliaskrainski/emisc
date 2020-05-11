@@ -92,11 +92,13 @@ epidplot <-
       plot(x, df1, type='l',
            xlab=lxlab[[2]],
            ylab=lylab[[2]], ...)
+      abline(h=0, lty=2, col=gray(0.5, 0.5))
     }
     if (show[3]) {
       plot(x, df2, type='l',
            xlab=lxlab[[2]],
            ylab=lylab[[3]], ...)
+      abline(h=0, lty=2, col=gray(0.5, 0.5))
     }
     invisible()
   }
