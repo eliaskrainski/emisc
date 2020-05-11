@@ -29,8 +29,12 @@
 stplot <- function(x, sp, d, col, ce,
                    tsub=3, ex=1, ey=1,
                    leg.labs=list(
-                     x='topleft',
-                     legend=rownames(x),
+                     x='bottomleft',
+                     legend=paste0(
+                       rownames(x), ': ',
+                       paste(apply(x, 1, range,
+                                   na.rm=TRUE),
+                             collapse='-')),
                      col=col, lty=1, lwd=2),
                    verbose=FALSE, ...) {
   n <- nrow(x)
@@ -80,10 +84,6 @@ stplot <- function(x, sp, d, col, ce,
         mean(b[2,])
       yi <- yi-mean(yi)+ce[i, 2]
       lines(xi, yi, col=col[i], ...)
-      leg.labs$legend[i] <- paste0(
-        leg.labs$legend[i], ': ',
-        paste(format(range(yi, na.rm=TRUE)),
-               collapse='-'))
     }
   } else {
     g <- GridTopology(b[,1]+r/(2*d), r/d, d)
