@@ -136,7 +136,7 @@ epidplot <-
       n <- length(ff)
       k <- length(w)
       Rs <- Rt <- es <- ee <- rep(NA, n)
-      hmin <- sqrt(.Machine$double.eps)
+      hmin <- .Machine$double.eps^0.25
       for (i in (k+1):n) {
         ee[i] <- sum(dy[i-1:k] * w)
         if (ee[i]<hmin)  ee[i] <- hmin
