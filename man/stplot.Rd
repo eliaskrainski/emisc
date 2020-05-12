@@ -2,7 +2,7 @@
 % Please edit documentation in R/stplot.R
 \name{stplot}
 \alias{stplot}
-\title{stplot}
+\title{Time series plot for each location}
 \usage{
 stplot(
   x,
@@ -20,8 +20,7 @@ stplot(
 }
 \arguments{
 \item{x}{a matrix with each column containing data
-at each time for a set of geographical objects in
-\code{sp}}
+at each time for a set of geographical units}
 
 \item{sp}{an object as defined in the 'sp' package}
 
@@ -57,5 +56,7 @@ are being reported during the process work}
 \code{line} used to plot each time series.}
 }
 \description{
-time series plot for each location
+given a matrix where each line is a
+time series of each spatial unit, the time series
+are shown over the map
 }

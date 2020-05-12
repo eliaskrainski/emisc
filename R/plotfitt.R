@@ -1,6 +1,4 @@
-#' @title plotfitt
-#' \code{plotfitt} is to ease visualize a fit
-#' output against the observed values
+#' Visualize fit output against observed values
 #' @param o vector of observed values
 #' @param sfitt an output of \code{lm}, \code{glm} or
 #' a \code{data.frame} containing columns with
@@ -12,6 +10,11 @@
 #' @param ylim the limits for the y axis scale
 #' @param ... additional arguments passed to
 #' \code{plot} and \code{arrows}
+#' @example
+#' d <- list(x=seq(pi, 3*pi, 0.1))
+#' d$y <- rpois(length(d$x), exp(1 + d$x))
+#' r <- glm(y~x, poisson, d)
+#' plottfit(d$y, r)
 plotfitt <- function(o, sfitt, asp=1,
                      xlab='Fitted', ylab='Observed',
                      xlim, ylim, ...) {

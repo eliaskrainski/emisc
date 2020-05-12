@@ -1,8 +1,9 @@
-#' @title stplot
-#' @description time series plot for each location
+#' Time series plot for each location
+#' @description given a matrix where each line is a
+#' time series of each spatial unit, the time series
+#' are shown over the map
 #' @param x a matrix with each column containing data
-#' at each time for a set of geographical objects in
-#' \code{sp}
+#' at each time for a set of geographical units
 #' @param sp an object as defined in the 'sp' package
 #' @param d a vector to specify a \code{GridTopology}
 #' object to do some subset over the \code{sp} object.
@@ -26,6 +27,11 @@
 #' are being reported during the process work
 #' @param ... additional arguments passed to
 #' \code{line} used to plot each time series.
+#' @example
+#' data(measlesWeserEms, package='surveillance')
+#' if (any(ls()=='measlesWeserEms))
+#'   stplot(t(measlesWeserEms@observed),
+#'          measlesWeserEms@map)
 stplot <- function(x, sp, d, col, ce,
                    tsub=3, ex=1, ey=1,
                    leg.args=list(x='bottomleft', lty=1),

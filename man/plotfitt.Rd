@@ -2,9 +2,7 @@
 % Please edit documentation in R/plotfitt.R
 \name{plotfitt}
 \alias{plotfitt}
-\title{plotfitt
-\code{plotfitt} is to ease visualize a fit
-output against the observed values}
+\title{Visualize fit output against observed values}
 \usage{
 plotfitt(
   o,
@@ -38,7 +36,5 @@ a \code{data.frame} containing columns with
 \code{plot} and \code{arrows}}
 }
 \description{
-plotfitt
-\code{plotfitt} is to ease visualize a fit
-output against the observed values
+Visualize fit output against observed values
 }

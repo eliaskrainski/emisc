@@ -2,13 +2,17 @@
 % Please edit documentation in R/htable.R
 \name{htable}
 \alias{htable}
-\title{\code{htable} provides a frequency table using
-the \code{hist} function internally.}
+\title{Frequency table for a numeric vector}
 \usage{
-htable(x, ...)
+htable(x, sep = " to ", digits = 2, ...)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{x}{numeric vector.}
+
+\item{sep}{character to be used to build the
+rownames from the breaks.}
+
+\item{digits}{integer used to format the breaks.}
 
 \item{...}{additional arguments passed to \code{hist}}
 }
@@ -16,9 +20,9 @@ htable(x, ...)
 a table of frequencies.
 }
 \description{
-\code{htable} provides a frequency table using
-the \code{hist} function internally.
+Uses the \code{hist} function
+to build a frequency table.
 }
 \examples{
-htable(rnorm(100))
+htable(rnorm(400))
 }
