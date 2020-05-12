@@ -143,10 +143,11 @@ epidplot <-
         Rs[i] <- ff[i]/ee[i]
       }
       plot(x, Rt, pch=8,
-           ylim=range(0, Rt, Rs, na.rm=TRUE),
+           ylim=range(0:1, Rt, Rs, na.rm=TRUE),
            xlab=lxlab[[4]],
            ylab=lylab[[4]], ...)
       lines(x, Rs, ...)
+      abline(h=1, lty=2, col=gray(0.3, 0.5), lwd=2)
     }
     invisible()
   }
