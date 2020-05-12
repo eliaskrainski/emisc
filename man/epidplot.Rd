@@ -76,7 +76,8 @@ ns.cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
  873, 900, 915, 935, 947, 959, 963, 971,
  985, 991, 998, 1007, 1008, 1011, 1018, 1019)
 date <- as.Date('2020-03-15') + 1:length(ns.cases)
+w <- pgamma(0:14, shape=(7/4)^2, scale=4^2/7)
 par(mfrow=c(2,2), mar=c(2,3,1,1),
     mgp=c(2, 0.5, 0), las=1)
-epidplot(date, ns.cases)
+epidplot(date, ns.cases, w=w)
 }

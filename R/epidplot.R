@@ -43,9 +43,10 @@
 #'  873, 900, 915, 935, 947, 959, 963, 971,
 #'  985, 991, 998, 1007, 1008, 1011, 1018, 1019)
 #' date <- as.Date('2020-03-15') + 1:length(ns.cases)
+#' w <- pgamma(0:14, shape=(7/4)^2, scale=4^2/7)
 #' par(mfrow=c(2,2), mar=c(2,3,1,1),
 #'     mgp=c(2, 0.5, 0), las=1)
-#' epidplot(date, ns.cases)
+#' epidplot(date, ns.cases, w=w)
 epidplot <-
   function(x, y, which=1:4, w,
            leg.args=list(
@@ -140,7 +141,7 @@ epidplot <-
         es[i] <- sum(ff[i-k:1] * w)
         Rs[i] <- ff[i]/ee[i]
       }
-      plot(x, Rt,
+      plot(x, Rt, pch=8,
            ylim=range(0, Rt, Rs, na.rm=TRUE),
            xlab=lxlab[[4]],
            ylab=lylab[[4]], ...)
