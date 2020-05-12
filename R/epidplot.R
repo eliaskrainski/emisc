@@ -7,10 +7,12 @@
 #' as the absolute increase and velocity.
 #' @param x a date or numeric vector
 #' @param y the cummulated number of cases
-#' @param which to specify which plots will be produced.
-#' See details.
-#' @param leg.args a named list with arguments passed to
-#' the legend of the first plot.
+#' @param which integer vector to pecify which
+#' plots will be produced. See details.
+#' @param w numeric vector to compute the expected
+#' number of new cases given past cases. See details.
+#' @param leg.args a named list with arguments
+#' passed to the legend of the first plot.
 #' @param lxlab a list with the xlab for each plot.
 #' @param lylab a list with the xlab for each plot.
 #' @param ask logical if ‘TRUE’, the user is _ask_ed
@@ -27,7 +29,11 @@
 #' of the fitted in the previous plot.
 #' The third plot is the, numerical, derivative
 #' of the fist derivative in the previous plot.
-#' @return up to three plots.
+#' The fourth plot is a smoothed version of R_t.
+#' This is computed as R_t = s_t/E_t, where
+#' s_t is smoothed version of the (new) series,
+#' E_t = sum_j w_j s_{t-j}.
+#' @return up to four plots.
 #' @examples
 #' ns <- list(date=as.Date('2020-03-16')+0:56)
 #' ns$cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
@@ -41,17 +47,19 @@
 #'     mgp=c(2, 0.5, 0), las=1)
 #' epidplot(ns)
 epidplot <-
-  function(x, y, which=1:3,
+  function(x, y, which=1:4, w,
            leg.args=list(
              x='topleft',
-             legend=c('accumulated', 'new', 'smoothed new'),
+             legend=c('accumulated', 'new',
+                      'smoothed new'),
              col=c(1, 2, 2),
              pch=c(19, 8, NA),
              lty=c(NA, NA, 1),
              bty='n'),
-           lxlab=list('', '', ''),
+           lxlab=list('', '', '', ''),
            lylab=list('Cases', 'Absolute growth',
-                      'Growth velocity'),
+                      'Growth velocity',
+                      'Reproduction number'),
            ask = prod(par("mfcol")) < length(which) &&
              dev.interactive(),
            ...)
@@ -86,7 +94,7 @@ epidplot <-
       oask <- devAskNewPage(TRUE)
       on.exit(devAskNewPage(oask))
     }
-    show <- 1:3 %in% which
+    show <- 1:4 %in% which
     if (show[1]) {
       plot(x,
            log(ifelse(y==0, y0, y), logbase),
@@ -116,9 +124,27 @@ epidplot <-
     if (show[3]) {
       plot(x, df2, type='l',
            ylim=range(0, df2, na.rm=TRUE),
-           xlab=lxlab[[2]],
+           xlab=lxlab[[3]],
            ylab=lylab[[3]], ...)
       abline(h=0, lty=2, col=gray(0.5, 0.5))
+    }
+    if (show[4]) {
+      if (missing(w))
+        stop("To compute R_t 'w' must be provided!")
+      n <- length(ff)
+      k <- length(w)
+      Rs <- Rt <- es <- ee <- rep(NA, n)
+      for (i in (k+1):n) {
+        ee[i] <- sum(dy[i-k:1] * w)
+        Rt[i] <- dy[i]/ee[i]
+        es[i] <- sum(ff[i-k:1] * w)
+        Rs[i] <- ff[i]/ee[i]
+      }
+      plot(x, Rt,
+           ylim=range(0, Rt, Rs, na.rm=TRUE),
+           xlab=lxlab[[4]],
+           ylab=lylab[[4]], ...)
+      lines(x, Rs, ...)
     }
     invisible()
   }

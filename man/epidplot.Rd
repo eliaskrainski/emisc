@@ -7,11 +7,12 @@
 epidplot(
   x,
   y,
-  which = 1:3,
+  which = 1:4,
+  w,
   leg.args = list(x = "topleft", legend = c("accumulated", "new", "smoothed new"), col
     = c(1, 2, 2), pch = c(19, 8, NA), lty = c(NA, NA, 1), bty = "n"),
-  lxlab = list("", "", ""),
-  lylab = list("Cases", "Absolute growth", "Growth velocity"),
+  lxlab = list("", "", "", ""),
+  lylab = list("Cases", "Absolute growth", "Growth velocity", "Reproduction number"),
   ask = prod(par("mfcol")) < length(which) && dev.interactive(),
   ...
 )
@@ -21,11 +22,14 @@ epidplot(
 
 \item{y}{the cummulated number of cases}
 
-\item{which}{to specify which plots will be produced.
-See details.}
+\item{which}{integer vector to pecify which
+plots will be produced. See details.}
 
-\item{leg.args}{a named list with arguments passed to
-the legend of the first plot.}
+\item{w}{numeric vector to compute the expected
+number of new cases given past cases. See details.}
+
+\item{leg.args}{a named list with arguments
+passed to the legend of the first plot.}
 
 \item{lxlab}{a list with the xlab for each plot.}
 
@@ -37,7 +41,7 @@ before each plot, see \code{par(ask=.)}.}
 \item{...}{additional arguments passed to \code{hist}}
 }
 \value{
-up to three plots.
+up to four plots.
 }
 \description{
 visualize the cummulated time
@@ -58,6 +62,10 @@ The second plot is the, numerical, derivative
 of the fitted in the previous plot.
 The third plot is the, numerical, derivative
 of the fist derivative in the previous plot.
+The fourth plot is a smoothed version of R_t.
+This is computed as R_t = s_t/E_t, where
+s_t is smoothed version of the (new) series,
+E_t = sum_j w_j s_{t-j}.
 }
 \examples{
 ns <- list(date=as.Date('2020-03-16')+0:56)
