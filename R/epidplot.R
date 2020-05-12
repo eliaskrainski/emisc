@@ -72,7 +72,9 @@ epidplot <-
     }
     show <- 1:3 %in% which
     if (show[1]) {
-      plot(x, log(ifelse(y==0, y0, y), logbase),
+      plot(x,
+           log(ifelse(y==0, y0, y), logbase),
+           ylim=log(c(y0, max(y)), logbase),
            pch=leg.args$pch[1],
            col=leg.args$col[1], axes=FALSE,
            xlab=lxlab[[1]],
