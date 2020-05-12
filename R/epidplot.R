@@ -145,6 +145,10 @@ epidplot <-
         if (es[i]<hmin) es[i] <- hmin
         Rs[i] <- ff[i]/ee[i]
       }
+      Rt[Rt<hmin] <- hmin
+      Rt[Rt>(1/sqrt(hmin))] <- NA
+      Rs[Rs<hmin] <- hmin
+      Rs[Rs>(1/sqrt(hmin))] <- NA
       plot(x, Rt, pch=8,
            ylim=range(0:1, Rt, Rs, na.rm=TRUE),
            xlab=lxlab[[4]],
