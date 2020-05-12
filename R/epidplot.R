@@ -137,9 +137,9 @@ epidplot <-
       k <- length(w)
       Rs <- Rt <- es <- ee <- rep(NA, n)
       for (i in (k+1):n) {
-        ee[i] <- sum(dy[i-k:1] * w)
+        ee[i] <- sum(dy[i-1:k] * w)
         Rt[i] <- dy[i]/ee[i]
-        es[i] <- sum(ff[i-k:1] * w)
+        es[i] <- sum(ff[i-1:k] * w)
         Rs[i] <- ff[i]/ee[i]
       }
       plot(x, Rt, pch=8,
