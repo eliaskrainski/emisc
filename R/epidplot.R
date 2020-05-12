@@ -136,10 +136,13 @@ epidplot <-
       n <- length(ff)
       k <- length(w)
       Rs <- Rt <- es <- ee <- rep(NA, n)
+      hmin <- sqrt(.Machine$double.eps)
       for (i in (k+1):n) {
         ee[i] <- sum(dy[i-1:k] * w)
+        if (ee[i]<hmin)  ee[i] <- hmin
         Rt[i] <- dy[i]/ee[i]
         es[i] <- sum(ff[i-1:k] * w)
+        if (es[i]<hmin) es[i] <- hmin
         Rs[i] <- ff[i]/ee[i]
       }
       plot(x, Rt, pch=8,
