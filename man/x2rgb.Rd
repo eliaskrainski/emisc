@@ -2,7 +2,7 @@
 % Please edit documentation in R/x2rgb.R
 \name{x2rgb}
 \alias{x2rgb}
-\title{x2rgb}
+\title{rgb colors from a numeric vector}
 \usage{
 x2rgb(x, breaks = NULL, u = FALSE, reverse = FALSE, ...)
 }
@@ -25,7 +25,7 @@ blue for blue for hight values of \code{x}.}
 \code{\link{rgb}} function
 }
 \description{
-`x2rgb` create rgb colors from a numeric vector
+create rgb colors from a numeric vector
 }
 \section{Warning}{
 

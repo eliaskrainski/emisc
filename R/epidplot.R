@@ -1,6 +1,10 @@
-#' @title epidplot
-#' @description `epidplot` visualize data
-#' from an epidemic outbreak
+#' Visualize an epdemic outbreak
+#' @description visualize the cummulated time
+#' series and its derivative (news).
+#' Add smoothed lines of the news.
+#' Additional plots shows the 1st and 2nd
+#' derivatives of the smoothed, interpreted
+#' as the absolute increase and velocity.
 #' @param x a date or numeric vector
 #' @param y the cummulated number of cases
 #' @param which to specify which plots will be produced.
@@ -24,6 +28,18 @@
 #' The third plot is the, numerical, derivative
 #' of the fist derivative in the previous plot.
 #' @return up to three plots.
+#' @examples
+#' ns <- list(date=as.Date('2020-03-16')+0:56)
+#' ns$cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
+#'  51, 68, 73, 90, 110, 122, 127, 147, 173,
+#'  193, 207, 236, 262, 293, 310, 310, 342,
+#'  407, 428, 445, 474, 517, 549, 579, 606,
+#'  649, 675, 721, 737, 772, 827, 850, 865,
+#'  873, 900, 915, 935, 947, 959, 963, 971,
+#'  985, 991, 998, 1007, 1008, 1011, 1018, 1019)
+#' par(mfrow=c(2,2), mar=c(2,3,1,1),
+#'     mgp=c(2, 0.5, 0), las=1)
+#' epidplot(ns)
 epidplot <-
   function(x, y, which=1:3,
            leg.args=list(

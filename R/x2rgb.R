@@ -1,5 +1,5 @@
-#' @title x2rgb
-#' @description `x2rgb` create rgb colors from a numeric vector
+#' @title rgb colors from a numeric vector
+#' @description create rgb colors from a numeric vector
 #' @param x numeric vector
 #' @param breaks non decreasing numeri vector
 #' @param u logical. Uses the rank of \code{x} as \code{x}.

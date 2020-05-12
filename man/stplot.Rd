@@ -60,3 +60,9 @@ given a matrix where each line is a
 time series of each spatial unit, the time series
 are shown over the map
 }
+\examples{
+data(measlesWeserEms, package='surveillance')
+if (any(ls()=='measlesWeserEms'))
+  stplot(t(measlesWeserEms@observed),
+         measlesWeserEms@map)
+}

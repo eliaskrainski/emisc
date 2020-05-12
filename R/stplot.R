@@ -27,9 +27,9 @@
 #' are being reported during the process work
 #' @param ... additional arguments passed to
 #' \code{line} used to plot each time series.
-#' @example
+#' @examples
 #' data(measlesWeserEms, package='surveillance')
-#' if (any(ls()=='measlesWeserEms))
+#' if (any(ls()=='measlesWeserEms'))
 #'   stplot(t(measlesWeserEms@observed),
 #'          measlesWeserEms@map)
 stplot <- function(x, sp, d, col, ce,

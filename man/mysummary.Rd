@@ -2,7 +2,7 @@
 % Please edit documentation in R/mysummary.R
 \name{mysummary}
 \alias{mysummary}
-\title{mysummary}
+\title{A more complete summary}
 \usage{
 mysummary(x, p = c(0, 0.025, 0.25, 0.5, 0.75, 0.975, 1))
 }
@@ -18,5 +18,10 @@ number of NA`s and mean, sd an quantiles if \code{x}
 is numeric or frequencies if \code{x} is factor.
 }
 \description{
-`mysummary` provides a more complete summary
+a more complete summary that
+applyes for both numeric and factor vectors.
+}
+\examples{
+mysummary(iris[,1])
+mysummary(iris[,2])
 }
