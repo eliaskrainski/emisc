@@ -10,5 +10,5 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.1.0), sp
-Imports: mgcv
+Imports: Matrix, mgcv
 RoxygenNote: 7.1.0
