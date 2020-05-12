@@ -43,7 +43,8 @@
 #'  873, 900, 915, 935, 947, 959, 963, 971,
 #'  985, 991, 998, 1007, 1008, 1011, 1018, 1019)
 #' date <- as.Date('2020-03-15') + 1:length(ns.cases)
-#' w <- pgamma(0:14, shape=(7/4)^2, scale=4^2/7)
+#' pw <- pgamma(0:14, shape=(5/3)^2, scale=3^2/5)
+#' w <- diff(pw)/sum(diff(pw))
 #' par(mfrow=c(2,2), mar=c(2,3,1,1),
 #'     mgp=c(2, 0.5, 0), las=1)
 #' epidplot(date, ns.cases, w=w)
