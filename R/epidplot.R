@@ -84,7 +84,7 @@ epidplot <-
                    rep(log(yl0, logbase), k+1) + kk))
     yl$l <- c(0, paste0(yl0*(logbase^(kk%%3)),
                         c('', 'K', 'M', 'B')[(kk%/%3)+1]))
-    dy <- diff(c(0, y))
+    dy <- c(NA, diff(y))
     ff <- mgcv::gam(n ~ s(d), poisson(),
                     data=list(n=dy, d=as.numeric(x))
     )$fitted
