@@ -112,7 +112,7 @@ epidplot <-
         yplot <- log(ifelse(y==0, y0, y), logbase)
         ylm <- log(c(y0, max(y)), logbase)
         dyplot <- log(ifelse(dy<y0, y0, dy), logbase)
-        ffplot <- log(ff, base)
+        ffplot <- log(ff, logbase)
       } else {
         yplot <- y
         ylm <- c(0, max(y))
