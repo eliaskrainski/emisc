@@ -154,19 +154,20 @@ epidplot <-
         stop("To compute R_t 'w' must be provided!")
       n <- length(ff)
       k <- length(w)
-      Rs <- Rt <- es <- ee <- rep(NA, n+k)
-      hmin <- .Machine$double.eps^0.25
+      ee <- rep(sqrt(.Machine$double.eps), n+k)
       for (i in 0:(n-1))
         ee[i+1:k] <- ee[i+1:k] + dy[i+1] * w
       dtemp <- list(n=dy, i=1:n, lE=log(ee[1:n]))
-      m2rt <- mgcv:::gam(n ~ s(i), poisson(),
+      m2rt <- mgcv:::gam(n ~ 0 + s(i), poisson(),
                          data=dtemp, offset=lE)
-      plot(m2rt, xlab=lxlab[[4]],
+      plot(m2rt, xlab=lxlab[[4]], rug=FALSE,
            ylab=lylab[[4]], axes=FALSE, ...)
-      axis(1, xl$x, xl$l)
-      axis(2)
-      points(x, dy/ee[1:n], pch=8, ...)
-      abline(h=1, lty=2, col=gray(0.3, 0.5), lwd=2)
+      axis(1, pmatch(xl$x, x), xl$l)
+      yl.rt <- c(0.1, 0.3, 0.5, 1, 2, 3, 5, 7,
+                 10*c(1,2,3,5), 100*c(1,2,3,5))
+      axis(2, log(yl.rt), yl.rt)
+      points(1:n, log(dy/ee[1:n]), pch=8, ...)
+      abline(h=0, lty=2, col=gray(0.3, 0.5), lwd=2)
     }
     invisible()
   }
