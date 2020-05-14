@@ -7,6 +7,7 @@
 epidplot(
   x,
   y,
+  logbase = 10,
   which = 1:4,
   w,
   leg.args = list(x = "topleft", legend = c("accumulated", "new", "smoothed new"), col
@@ -21,6 +22,11 @@ epidplot(
 \item{x}{a date or numeric vector}
 
 \item{y}{the cummulated number of cases}
+
+\item{logbase}{numeric to be used as the basis
+for the log transformation considered for the
+first plot. If a number bellow 1 is given,
+no transformation will be considered.}
 
 \item{which}{integer vector to pecify which
 plots will be produced. See details.}
@@ -68,17 +74,19 @@ s_t is smoothed version of the (new) series,
 E_t = sum_j w_j s_{t-j}.
 }
 \examples{
+## COVID19 cases in Nova Scotia, Canada
 ns.cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
  51, 68, 73, 90, 110, 122, 127, 147, 173,
  193, 207, 236, 262, 293, 310, 310, 342,
  407, 428, 445, 474, 517, 549, 579, 606,
  649, 675, 721, 737, 772, 827, 850, 865,
  873, 900, 915, 935, 947, 959, 963, 971,
- 985, 991, 998, 1007, 1008, 1011, 1018, 1019)
+ 985, 991, 998, 1007, 1008, 1011, 1018,
+ 1019, 1020, 1024)
 date <- as.Date('2020-03-15') + 1:length(ns.cases)
 pw <- pgamma(0:14, shape=(5/3)^2, scale=3^2/5)
 w <- diff(pw)/sum(diff(pw))
 par(mfrow=c(2,2), mar=c(2,3,1,1),
     mgp=c(2, 0.5, 0), las=1)
-epidplot(date, ns.cases, w=w)
+epidplot(date, ns.cases, logbase=10, w=w)
 }

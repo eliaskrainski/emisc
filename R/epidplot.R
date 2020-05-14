@@ -7,6 +7,10 @@
 #' as the absolute increase and velocity.
 #' @param x a date or numeric vector
 #' @param y the cummulated number of cases
+#' @param logbase numeric to be used as the basis
+#' for the log transformation considered for the
+#' first plot. If a number bellow 1 is given,
+#' no transformation will be considered.
 #' @param which integer vector to pecify which
 #' plots will be produced. See details.
 #' @param w numeric vector to compute the expected
@@ -35,21 +39,23 @@
 #' E_t = sum_j w_j s_{t-j}.
 #' @return up to four plots.
 #' @examples
+#' ## COVID19 cases in Nova Scotia, Canada
 #' ns.cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
 #'  51, 68, 73, 90, 110, 122, 127, 147, 173,
 #'  193, 207, 236, 262, 293, 310, 310, 342,
 #'  407, 428, 445, 474, 517, 549, 579, 606,
 #'  649, 675, 721, 737, 772, 827, 850, 865,
 #'  873, 900, 915, 935, 947, 959, 963, 971,
-#'  985, 991, 998, 1007, 1008, 1011, 1018, 1019)
+#'  985, 991, 998, 1007, 1008, 1011, 1018,
+#'  1019, 1020, 1024)
 #' date <- as.Date('2020-03-15') + 1:length(ns.cases)
 #' pw <- pgamma(0:14, shape=(5/3)^2, scale=3^2/5)
 #' w <- diff(pw)/sum(diff(pw))
 #' par(mfrow=c(2,2), mar=c(2,3,1,1),
 #'     mgp=c(2, 0.5, 0), las=1)
-#' epidplot(date, ns.cases, w=w)
+#' epidplot(date, ns.cases, logbase=10, w=w)
 epidplot <-
-  function(x, y, which=1:4, w,
+  function(x, y, logbase = 10, which = 1:4, w,
            leg.args=list(
              x='topleft',
              legend=c('accumulated', 'new',
@@ -69,28 +75,32 @@ epidplot <-
     if (is.null(y)) {
       y <- x
       x <- 1:length(y)
-      xl <- list(x=pretty(x))
-      xl$l <- xl$x
-    } else {
-      xl <- list(x=pretty(x))
-      xl$l <- format(xl$x, '%b %d')
     }
-    y <- cummax(y)
-    logbase <- 10; y0 <- 0.3
-    yl0 <- c(1, 3)
-    k <- ceiling(log(logbase + 1 + max(y), logbase))
-    kk <- rep(0:k, each=length(yl0))
-    yl <- list(y=c(log(y0, logbase),
-                   rep(log(yl0, logbase), k+1) + kk))
-    yl$l <- c(0, paste0(yl0*(logbase^(kk%%3)),
-                        c('', 'K', 'M', 'B')[(kk%/%3)+1]))
-    dy <- c(NA, diff(y))
-    ff <- c(NA, mgcv::gam(n ~ s(d), poisson(),
+    xl <- list(x=pretty(x))
+    if (class(x)%in%c('Date', 'POSIXct', 'POSIXt')) {
+      xl$l <- format(xl$x, '%b %d')
+    } else {
+      xl$l <- xl$x
+    }
+    dolog <- logbase>(1+sqrt(.Machine$double.eps))
+    if (dolog) {
+      y0 <- 0.3
+      yl0 <- c(1, 3)
+      k <- ceiling(log(logbase + 1 + max(y), logbase))
+      kk <- rep(0:k, each=length(yl0))
+      yl <- list(y=c(log(y0, logbase),
+                     rep(log(yl0, logbase), k+1) + kk))
+      yl$l <- c(0, paste0(yl0*(logbase^(kk%%3)),
+                          c('', 'K', 'M', 'B')[(kk%/%3)+1]))
+    } else {
+      yl <- list(y=pretty(y), l=pretty(y))
+    }
+    dy <- diff(c(0, y))
+    ff <- mgcv::gam(n ~ s(d), poisson(),
                     data=list(n=dy, d=as.numeric(x))
-                    )$fitted)
+                    )$fitted
     df1 <- c(NA, diff(ff))
     df2 <- c(NA, diff(df1))
-    logbase <- 10
     nwin <- prod(par('mfcol'))==1
     if (ask) {
       oask <- devAskNewPage(TRUE)
@@ -98,19 +108,28 @@ epidplot <-
     }
     show <- 1:4 %in% which
     if (show[1]) {
-      plot(x,
-           log(ifelse(y==0, y0, y), logbase),
-           ylim=log(c(y0, max(y)), logbase),
+      if (dolog) {
+        yplot <- log(ifelse(y==0, y0, y), logbase)
+        ylm <- log(c(y0, max(y)), logbase)
+        dyplot <- log(ifelse(dy<y0, y0, dy), logbase)
+        ffplot <- log(ff, base)
+      } else {
+        yplot <- y
+        ylm <- c(0, max(y))
+        dyplot <- dy
+        ffplot <- ff
+      }
+      plot(x, yplot, ylim=ylm,
            pch=leg.args$pch[1],
            col=leg.args$col[1], axes=FALSE,
            xlab=lxlab[[1]],
            ylab=lylab[[1]], ...)
       axis(1, xl$x, xl$l)
       axis(2, yl$y, yl$l)
-      points(x, log(ifelse(dy==0, y0, dy), logbase),
+      points(x, dyplot,
              pch=leg.args$pch[2],
              col=leg.args$col[2], ...)
-      lines(x, log(ff, logbase),
+      lines(x, ffplot,
             lwd=leg.args$lwd[3],
             lty=leg.args$lty[3],
             col=leg.args$col[3])
@@ -135,25 +154,18 @@ epidplot <-
         stop("To compute R_t 'w' must be provided!")
       n <- length(ff)
       k <- length(w)
-      Rs <- Rt <- es <- ee <- rep(NA, n)
+      Rs <- Rt <- es <- ee <- rep(NA, n+k)
       hmin <- .Machine$double.eps^0.25
-      for (i in (k+2):n) {
-        ee[i] <- sum(dy[i-1:k] * w)
-        if (ee[i]<hmin)  ee[i] <- hmin
-        Rt[i] <- dy[i]/ee[i]
-        es[i] <- sum(ff[i-1:k] * w)
-        if (es[i]<hmin) es[i] <- hmin
-        Rs[i] <- ff[i]/ee[i]
-      }
-      Rt[Rt<hmin] <- hmin
-      Rt[Rt>(1/sqrt(hmin))] <- NA
-      Rs[Rs<hmin] <- hmin
-      Rs[Rs>(1/sqrt(hmin))] <- NA
-      plot(x, Rt, pch=8,
-           ylim=range(0:1, Rt, Rs, na.rm=TRUE),
-           xlab=lxlab[[4]],
-           ylab=lylab[[4]], ...)
-      lines(x, Rs, ...)
+      for (i in 0:(n-1))
+        ee[i+1:k] <- ee[i+1:k] + dy[i+1] * w
+      dtemp <- list(n=dy, i=1:n, lE=log(ee[1:n]))
+      m2rt <- mgcv:::gam(n ~ s(i), poisson(),
+                         data=dtemp, offset=lE)
+      plot(m2rt, xlab=lxlab[[4]],
+           ylab=lylab[[4]], axes=FALSE, ...)
+      axis(1, xl$x, xl$l)
+      axis(2)
+      points(x, dy/ee[1:n], pch=8, ...)
       abline(h=1, lty=2, col=gray(0.3, 0.5), lwd=2)
     }
     invisible()
