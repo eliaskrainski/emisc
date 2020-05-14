@@ -154,20 +154,24 @@ epidplot <-
         stop("To compute R_t 'w' must be provided!")
       n <- length(ff)
       k <- length(w)
-      ee <- rep(sqrt(.Machine$double.eps), n+k)
-      for (i in 0:(n-1))
-        ee[i+1:k] <- ee[i+1:k] + dy[i+1] * w
-      dtemp <- list(n=dy, i=1:n, lE=log(ee[1:n]))
-      m2rt <- mgcv:::gam(n ~ 0 + s(i), poisson(),
+      if ((n-k)<k)
+        stop("'length(y)<2*length(w)': Too few data to fit R_t")
+      ee <- rep(.Machine$double.eps, n+k)
+      for (i in 1:n)
+        ee[i+1:k] <- ee[i+1:k] + dy[i] * w
+      rt.hat <- dy[(k+1):n]/ee[(k+1):n]
+      dtemp <- list(n=dy[(k+1):n],
+                    i=(k+1):n,
+                    lE=log(ee[(k+1):n]))
+      m2rt <- mgcv:::gam(n ~ s(i), poisson(),
                          data=dtemp, offset=lE)
-      plot(m2rt, xlab=lxlab[[4]], rug=FALSE,
-           ylab=lylab[[4]], axes=FALSE, ...)
+      plot(m2rt, trans=exp, ylim=range(rt.hat), shade=TRUE,
+           shift = m2rt$coefficients[1], axes=FALSE,
+           xlab=lxlab[[4]], ylab=lylab[[4]], rug=FALSE)
+      points((k+1):n, rt.hat, pch=8, col=2)
+      abline(h=1)
+      axis(2)
       axis(1, pmatch(xl$x, x), xl$l)
-      yl.rt <- c(0.1, 0.3, 0.5, 1, 2, 3, 5, 7,
-                 10*c(1,2,3,5), 100*c(1,2,3,5))
-      axis(2, log(yl.rt), yl.rt)
-      points(1:n, log(dy/ee[1:n]), pch=8, ...)
-      abline(h=0, lty=2, col=gray(0.3, 0.5), lwd=2)
     }
     invisible()
   }
