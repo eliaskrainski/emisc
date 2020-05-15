@@ -159,15 +159,17 @@ epidplot <-
       ee <- rep(.Machine$double.eps, n+k)
       for (i in 1:n)
         ee[i+1:k] <- ee[i+1:k] + dy[i] * w
-      rt.hat <- dy[(k+1):n]/ee[(k+1):n]
+      lee <- log(ifelse(ee<0.1, 0.1, ee))
+      rt.hat <- dy[(k+1):n]/exp(lee[(k+1):n])
       dtemp <- list(n=dy[(k+1):n],
                     i=(k+1):n,
-                    lE=log(ee[(k+1):n]))
+                    lE=lee[(k+1):n])
       m2rt <- mgcv:::gam(n ~ s(i), poisson(),
                          data=dtemp, offset=lE)
-      plot(m2rt, trans=exp, ylim=range(rt.hat), shade=TRUE,
-           shift = m2rt$coefficients[1], axes=FALSE,
-           xlab=lxlab[[4]], ylab=lylab[[4]], rug=FALSE)
+      plot(m2rt, trans=exp, shade=TRUE, axes=FALSE,
+           shift = m2rt$coefficients[1], rug=FALSE,
+           xlim=c(1, n), ylim=range(rt.hat),
+           xlab=lxlab[[4]], ylab=lylab[[4]])
       points((k+1):n, rt.hat, pch=8, col=2)
       abline(h=1)
       axis(2)
