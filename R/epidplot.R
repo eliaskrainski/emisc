@@ -166,11 +166,12 @@ epidplot <-
                     lE=lee[(k+1):n])
       m2rt <- mgcv:::gam(n ~ s(i), poisson(),
                          data=dtemp, offset=lE)
-      plot(m2rt, trans=exp, shade=TRUE, axes=FALSE,
-           shift = m2rt$coefficients[1], rug=FALSE,
-           xlim=c(1, n), ylim=range(rt.hat),
+      prd <- predict(m2rt, se.fit=TRUE)
+      plot(x[(k+1):n], rt.hat, pch=8,
            xlab=lxlab[[4]], ylab=lylab[[4]])
-      points((k+1):n, rt.hat, pch=8, col=2)
+      lines(x[(k+1):n], exp(prd$fit))
+      lines(x[(k+1):n], exp(prd$fit-1.96*prd$se.fit))
+      lines(x[(k+1):n], exp(prd$fit+1.96*prd$se.fit))
       abline(h=1)
       axis(2)
       axis(1, pmatch(xl$x, x), xl$l)
