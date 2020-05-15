@@ -169,9 +169,14 @@ epidplot <-
       prd <- predict(m2rt, se.fit=TRUE)
       plot(x[(k+1):n], rt.hat, pch=8,
            xlab=lxlab[[4]], ylab=lylab[[4]])
-      lines(x[(k+1):n], exp(prd$fit))
-      lines(x[(k+1):n], exp(prd$fit-1.96*prd$se.fit))
-      lines(x[(k+1):n], exp(prd$fit+1.96*prd$se.fit))
+      m <- exp(prd$fit)
+      lines(x[(k+1):n], m)
+      lo <- exp(prd$fit-1.96*prd$se.fit)
+      up <- exp(prd$fit+1.96*prd$se.fit)
+      polygon(c(x[(k+1):n], x[n:(k+1)], x[k+1]),
+              c(lo, rev(up), lo[1]),
+              col=gray(0.7,0.5),
+              border=gray(0.7, 0.5))
       abline(h=1)
       axis(2)
       axis(1, pmatch(xl$x, x), xl$l)
