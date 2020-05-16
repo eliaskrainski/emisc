@@ -10,8 +10,8 @@ epidplot(
   logbase = 10,
   which = 1:4,
   w,
-  leg.args = list(x = "topleft", legend = c("accumulated", "new", "smoothed new"), col
-    = c(1, 2, 2), pch = c(19, 8, NA), lty = c(NA, NA, 1), bty = "n"),
+  leg1args = list(x = "topleft", legend = c("accumulated", "new"), col = c(1, 2), pch =
+    c(19, 8), lty = c(1, 1), bty = "n"),
   lxlab = list("", "", "", ""),
   lylab = list("Cases", "Absolute growth", "Growth velocity", "Reproduction number"),
   ask = prod(par("mfcol")) < length(which) && dev.interactive(),
@@ -34,7 +34,7 @@ plots will be produced. See details.}
 \item{w}{numeric vector to compute the expected
 number of new cases given past cases. See details.}
 
-\item{leg.args}{a named list with arguments
+\item{leg1args}{a named list with arguments
 passed to the legend of the first plot.}
 
 \item{lxlab}{a list with the xlab for each plot.}

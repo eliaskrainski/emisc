@@ -15,7 +15,7 @@
 #' plots will be produced. See details.
 #' @param w numeric vector to compute the expected
 #' number of new cases given past cases. See details.
-#' @param leg.args a named list with arguments
+#' @param leg1args a named list with arguments
 #' passed to the legend of the first plot.
 #' @param lxlab a list with the xlab for each plot.
 #' @param lylab a list with the xlab for each plot.
@@ -56,13 +56,12 @@
 #' epidplot(date, ns.cases, logbase=10, w=w)
 epidplot <-
   function(x, y, logbase = 10, which = 1:4, w,
-           leg.args=list(
+           leg1args=list(
              x='topleft',
-             legend=c('accumulated', 'new',
-                      'smoothed new'),
-             col=c(1, 2, 2),
-             pch=c(19, 8, NA),
-             lty=c(NA, NA, 1),
+             legend=c('accumulated', 'new'),
+             col=c(1, 2),
+             pch=c(19, 8),
+             lty=c(1,1),
              bty='n'),
            lxlab=list('', '', '', ''),
            lylab=list('Cases', 'Absolute growth',
@@ -99,6 +98,7 @@ epidplot <-
     ff <- mgcv::gam(n ~ s(d), poisson(),
                     data=list(n=dy, d=as.numeric(x))
                     )$fitted
+    cff <- cumsum(ff)
     df1 <- c(NA, diff(ff))
     df2 <- c(NA, diff(df1))
     nwin <- prod(par('mfcol'))==1
@@ -113,27 +113,30 @@ epidplot <-
         ylm <- log(c(y0, max(y)), logbase)
         dyplot <- log(ifelse(dy<y0, y0, dy), logbase)
         ffplot <- log(ff, logbase)
+        cffplot <- log(cff, logbase)
       } else {
         yplot <- y
         ylm <- c(0, max(y))
         dyplot <- dy
         ffplot <- ff
+        cffplot <- cff
       }
       plot(x, yplot, ylim=ylm,
-           pch=leg.args$pch[1],
-           col=leg.args$col[1], axes=FALSE,
+           pch=leg1args$pch[1],
+           col=leg1args$col[1], axes=FALSE,
            xlab=lxlab[[1]],
            ylab=lylab[[1]], ...)
       axis(1, xl$x, xl$l)
       axis(2, yl$y, yl$l)
+      lines(x, cffplot)
       points(x, dyplot,
-             pch=leg.args$pch[2],
-             col=leg.args$col[2], ...)
+             pch=leg1args$pch[2],
+             col=leg1args$col[2], ...)
       lines(x, ffplot,
-            lwd=leg.args$lwd[3],
-            lty=leg.args$lty[3],
-            col=leg.args$col[3])
-      do.call('legend', leg.args)
+            lwd=leg1args$lwd[2],
+            lty=leg1args$lty[2],
+            col=leg1args$col[2])
+      do.call('legend', leg1args)
     }
     if (show[2]) {
       plot(x, df1, type='l',
