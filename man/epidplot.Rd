@@ -7,13 +7,12 @@
 epidplot(
   x,
   y,
-  logbase = 10,
-  which = 1:4,
-  w,
-  leg1args = list(x = "topleft", legend = c("accumulated", "new"), col = c(1, 2), pch =
-    c(19, 8), lty = c(1, 1), bty = "n"),
-  lxlab = list("", "", "", ""),
-  lylab = list("Cases", "Absolute growth", "Growth velocity", "Reproduction number"),
+  log10 = TRUE,
+  which = list(1:2, c(3, 5), 4, 6),
+  w = exp(-sqrt(1:14)) * 0.686,
+  leg.args = NULL,
+  lxlab = NULL,
+  lylab = NULL,
   ask = prod(par("mfcol")) < length(which) && dev.interactive(),
   ...
 )
@@ -23,18 +22,18 @@ epidplot(
 
 \item{y}{the cummulated number of cases}
 
-\item{logbase}{numeric to be used as the basis
-for the log transformation considered for the
-first plot. If a number bellow 1 is given,
-no transformation will be considered.}
+\item{log10}{length one or two logical to
+indicate if accumulated and new series are
+shown in the log10 transformation.}
 
-\item{which}{integer vector to pecify which
-plots will be produced. See details.}
+\item{which}{integer vector or list of integers
+to specify which plots will be produced in each
+figure. See detais.}
 
 \item{w}{numeric vector to compute the expected
 number of new cases given past cases. See details.}
 
-\item{leg1args}{a named list with arguments
+\item{leg.args}{a named list with arguments
 passed to the legend of the first plot.}
 
 \item{lxlab}{a list with the xlab for each plot.}
@@ -45,6 +44,9 @@ passed to the legend of the first plot.}
 before each plot, see \code{par(ask=.)}.}
 
 \item{...}{additional arguments passed to \code{hist}}
+
+\item{E0}{numeric to represent the basic expected
+number of cases. Default set as 1-sum(w).}
 }
 \value{
 up to four plots.
@@ -82,7 +84,7 @@ ns.cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
  649, 675, 721, 737, 772, 827, 850, 865,
  873, 900, 915, 935, 947, 959, 963, 971,
  985, 991, 998, 1007, 1008, 1011, 1018,
- 1019, 1020, 1024)
+ 1019, 1020, 1024, 1026, 1034, 1037, 1040)
 date <- as.Date('2020-03-15') + 1:length(ns.cases)
 pw <- pgamma(0:14, shape=(5/3)^2, scale=3^2/5)
 w <- diff(pw)/sum(diff(pw))
