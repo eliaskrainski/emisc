@@ -15,8 +15,6 @@
 #' figure. See detais.
 #' @param w numeric vector to compute the expected
 #' number of new cases given past cases. See details.
-#' @param E0 numeric to represent the basic expected
-#' number of cases. Default set as 1-sum(w).
 #' @param leg.args a named list with arguments
 #' passed to the legend of the first plot.
 #' @param lxlab a list with the xlab for each plot.
@@ -114,7 +112,7 @@ epidplot <-
         if (is.null(leg.args[[wp]])) {
           leg.args[[wp]]$x <- 'topleft'
           leg.args[[wp]]$legend <- c('accumulated', 'new')
-          leg.args[[wp]]$pch <- c(18, 8)
+          leg.args[[wp]]$pch <- c(19, 8)
           leg.args[[wp]]$col <- c(1, 2)
           leg.args[[wp]]$lty <- c(1, 1)
           leg.args[[wp]]$lwd <- c(1, 1)

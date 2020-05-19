@@ -44,9 +44,6 @@ passed to the legend of the first plot.}
 before each plot, see \code{par(ask=.)}.}
 
 \item{...}{additional arguments passed to \code{hist}}
-
-\item{E0}{numeric to represent the basic expected
-number of cases. Default set as 1-sum(w).}
 }
 \value{
 up to four plots.
