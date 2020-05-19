@@ -217,16 +217,12 @@ epidplot <-
       dtemp <- list(n=dy[2:n],
                     i=2:n,
                     lE=lee[2:n])
-      print(str(dtemp))
       m2rt <- mgcv:::gam(n ~ s(i), poisson(),
                          data=dtemp, offset=lE)
       prd <- predict(m2rt, se.fit=TRUE)
-      print(str(prd))
       plot(x, rt.hat, pch=8,
            xlab=lxlab[[4]], ylab=lylab[[4]])
       m <- c(NA, exp(prd$fit))
-      print(str(x))
-      print(str(m))
       lines(x, m)
       lo <- exp(prd$fit-1.96*prd$se.fit)
       up <- exp(prd$fit+1.96*prd$se.fit)
