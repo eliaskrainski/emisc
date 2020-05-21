@@ -46,7 +46,7 @@ before each plot, see \code{par(ask=.)}.}
 \item{...}{additional arguments passed to \code{hist}}
 }
 \value{
-up to four plots.
+up to six plots
 }
 \description{
 visualize the cummulated time
@@ -57,20 +57,29 @@ derivatives of the smoothed, interpreted
 as the absolute increase and velocity.
 }
 \details{
-The first plot shows the series of accumulated cases,
-the number of new cases along with a line which is the
-smoothed version of the new cases counts.
-The smoothed is computed using the \code{mgcv:::gam}
-function with \code{mgcv:::s()} on \code{x} and
+This function produces up to 6 plots.
+1st: accumulated, provided y, with smoothed line
+2nd: new cases with smoothed line
+3nd: derivative, change on the trend, of the
+smoothed line for new cases.
+4th: derivative divided by the smoothed new cases line
+5th: second derivative of the smoothed line for the
+new cases series, representing the velocity of
+the absolute change.
+6th: effective reproduction number.
+The first and second plots can be joined into one.
+The smoothed line for the second plot is computed
+using the \code{mgcv:::gam} function with
+\code{mgcv:::s()} on \code{x} considering
 \code{family=poisson()}.
-The second plot is the, numerical, derivative
-of the fitted in the previous plot.
-The third plot is the, numerical, derivative
-of the fist derivative in the previous plot.
-The fourth plot is a smoothed version of R_t.
-This is computed as R_t = s_t/E_t, where
-s_t is smoothed version of the (new) series,
-E_t = sum_j w_j s_{t-j}.
+The line for the 1st plot is the cumsum of the
+line being fitted for the 2nd plot.
+The last plot consider
+    R_t = s_t/E_t
+  where E_t = sum_j w_j s_{t-j},
+for j = 1, ..., k=length(w).
+In this plot it will be shown the last (n-k)
+values for R_t, if type!='n'.
 }
 \examples{
 ## COVID19 cases in Nova Scotia, Canada

@@ -23,21 +23,30 @@
 #' before each plot, see \code{par(ask=.)}.
 #' @param ... additional arguments passed to \code{hist}
 #' @details
-#' The first plot shows the series of accumulated cases,
-#' the number of new cases along with a line which is the
-#' smoothed version of the new cases counts.
-#' The smoothed is computed using the \code{mgcv:::gam}
-#' function with \code{mgcv:::s()} on \code{x} and
+#' This function produces up to 6 plots.
+#' 1st: accumulated, provided y, with smoothed line
+#' 2nd: new cases with smoothed line
+#' 3nd: derivative, change on the trend, of the
+#' smoothed line for new cases.
+#' 4th: derivative divided by the smoothed new cases line
+#' 5th: second derivative of the smoothed line for the
+#' new cases series, representing the velocity of
+#' the absolute change.
+#' 6th: effective reproduction number.
+#' The first and second plots can be joined into one.
+#' The smoothed line for the second plot is computed
+#' using the \code{mgcv:::gam} function with
+#' \code{mgcv:::s()} on \code{x} considering
 #' \code{family=poisson()}.
-#' The second plot is the, numerical, derivative
-#' of the fitted in the previous plot.
-#' The third plot is the, numerical, derivative
-#' of the fist derivative in the previous plot.
-#' The fourth plot is a smoothed version of R_t.
-#' This is computed as R_t = s_t/E_t, where
-#' s_t is smoothed version of the (new) series,
-#' E_t = sum_j w_j s_{t-j}.
-#' @return up to four plots.
+#' The line for the 1st plot is the cumsum of the
+#' line being fitted for the 2nd plot.
+#' The last plot consider
+#'     R_t = s_t/E_t
+#'   where E_t = sum_j w_j s_{t-j},
+#' for j = 1, ..., k=length(w).
+#' In this plot it will be shown the last (n-k)
+#' values for R_t, if type!='n'.
+#' @return up to six plots
 #' @examples
 #' ## COVID19 cases in Nova Scotia, Canada
 #' ns.cases <- c(5, 7, 12, 14, 15, 21, 28, 41,
@@ -64,7 +73,7 @@ epidplot <-
            ask = prod(par("mfcol")) < length(which) &&
              dev.interactive(),
            ...)
-  {
+    {
     if (is.null(y)) {
       y <- x
       x <- 1:length(y)
@@ -104,18 +113,16 @@ epidplot <-
       oask <- devAskNewPage(TRUE)
       on.exit(devAskNewPage(oask))
     }
-    pch0 <- c(19, 8, NA, NA, NA, 8)
-    col0 <- rep(1, 6)
     for (wp in 1:length(which)) {
       show <- 1:6 %in% which[[wp]]
       if (show[1]) {
         if (is.null(leg.args[[wp]])) {
           leg.args[[wp]]$x <- 'topleft'
-          leg.args[[wp]]$legend <- c('accumulated', 'new')
-          leg.args[[wp]]$pch <- c(19, 8)
-          leg.args[[wp]]$col <- c(1, 2)
-          leg.args[[wp]]$lty <- c(1, 1)
-          leg.args[[wp]]$lwd <- c(1, 1)
+          leg.args[[wp]]$legend <- c('accumulated')
+          leg.args[[wp]]$pch <- c(19)
+          leg.args[[wp]]$col <- c(1)
+          leg.args[[wp]]$lty <- c(1)
+          leg.args[[wp]]$lwd <- c(1)
         }
         if (dolog[1]) {
           yplot <- log(ifelse(y==0, y0, y), logbase)
@@ -138,6 +145,16 @@ epidplot <-
         axis(2, yl$y, yl$l)
         lines(x, cffplot)
         if (show[2]) {
+          leg.args[[wp]]$legend <- c(
+            leg.args[[wp]]$legend, 'new')
+          leg.args[[wp]]$pch <- c(
+            leg.args[[wp]]$pch, 8)
+          leg.args[[wp]]$col <- c(
+            leg.args[[wp]]$col, 2)
+          leg.args[[wp]]$lty <- c(
+            leg.args[[wp]]$lty, 1)
+          leg.args[[wp]]$lwd <- c(
+            leg.args[[wp]]$lwd, 1)
           if (dolog[2]) {
             dyplot <- log(ifelse(dy<y0, y0, dy), logbase)
             ylm <- c(y0, max(dy, na.rm=TRUE))
@@ -155,8 +172,28 @@ epidplot <-
                 lty=leg.args[[wp]]$lty[2],
                 lwd=leg.args[[wp]]$lwd[2],
                 col=leg.args[[wp]]$col[2])
-          do.call('legend', leg.args[[wp]])
         }
+        if (show[3]) {
+          leg.args[[wp]]$legend <- c(
+            leg.args[[wp]]$legend, 'change')
+          leg.args[[wp]]$pch <- c(
+            leg.args[[wp]]$pch, NA)
+          leg.args[[wp]]$col <- c(
+            leg.args[[wp]]$col, 3)
+          leg.args[[wp]]$lty <- c(
+            leg.args[[wp]]$lty, 1)
+          leg.args[[wp]]$lwd <- c(
+            leg.args[[wp]]$lwd, 1)
+          lines(x, df1,
+                leg.args[[wp]]$lty[3],
+                leg.args[[wp]]$lwd[3],
+                leg.args[[wp]]$col[3],
+                xlab=lxlab[[wp]],
+                 ylab=lylab[[wp]], ...)
+          abline(h=0, lty=2, col=gray(0.5, 0.5))
+        }
+        if (any(show[c(2,3)]))
+          do.call('legend', leg.args[[wp]])
       }
       if ((!show[1]) & show[2]) {
         if (dolog[2]) {
@@ -184,8 +221,8 @@ epidplot <-
         abline(h=0, lty=2, col=gray(0.5, 0.5))
       }
       if (show[4]) {
-        plot(x, df1r, type='l',
-             ylim=range(0, df1r, na.rm=TRUE),
+        plot(x, df1r*100, type='l',
+             ylim=range(0, df1r*100, na.rm=TRUE),
              xlab=lxlab[[wp]],
              ylab=lylab[[wp]], ...)
         abline(h=0, lty=2, col=gray(0.5, 0.5))
@@ -208,32 +245,33 @@ epidplot <-
         n <- length(ff)
         k <- length(w)
         if ((n-k)<k)
-          stop("'length(y)<2*length(w)': Too few data to fit R_t")
-      ee <- rep(.Machine$double.eps^0.2, n+k)
-      for (i in 1:n)
-        ee[i+1:k] <- ee[i+1:k] + dy[i] * w
-      lee <- log(ifelse(ee<0.1, 0.1, ee))
-      rt.hat <- c(NA, dy[2:n]/exp(lee[2:n]))
-      dtemp <- list(n=dy[2:n],
-                    i=2:n,
-                    lE=lee[2:n])
-      m2rt <- mgcv:::gam(n ~ s(i), poisson(),
-                         data=dtemp, offset=lE)
-      prd <- predict(m2rt, se.fit=TRUE)
-      plot(x, rt.hat, pch=8,
-           xlab=lxlab[[4]], ylab=lylab[[4]])
-      m <- c(NA, exp(prd$fit))
-      lines(x, m)
-      lo <- exp(prd$fit-1.96*prd$se.fit)
-      up <- exp(prd$fit+1.96*prd$se.fit)
-      polygon(c(x[2:n], x[n:2], x[2]),
-              c(lo, rev(up), lo[1]),
-              col=gray(0.7,0.5),
-              border=gray(0.7, 0.5))
-      abline(h=1)
-      axis(2)
-      axis(1, pmatch(xl$x, x), xl$l)
+          stop(paset("'length(y)<2*length(w)':",
+                     "Too few data to fit R_t"))
+        ee <- rep(0.01, n+k)
+        for (i in 1:n)
+          ee[i+1:k] <- ee[i+1:k] + dy[i] * w
+        lee <- log(ifelse(ee<0.1, 0.1, ee))
+        rt.hat <- c(NA, dy[2:n]/exp(lee[2:n]))
+        dtemp <- list(n=dy[2:n],
+                      i=2:n,
+                      lE=lee[2:n])
+        m2rt <- mgcv:::gam(n ~ s(i), poisson(),
+                           data=dtemp, offset=lE)
+        prd <- predict(m2rt, se.fit=TRUE)
+        plot(x, c(rep(NA, k), rt.hat[(k+1):n]), pch=8,
+             xlab=lxlab[[wp]], ylab=lylab[[wp]], ...)
+        m <- c(NA, exp(prd$fit))
+        lines(x[(k+1):n], m[(k+1):n])
+        lo <- exp(prd$fit-1.96*prd$se.fit)
+        up <- exp(prd$fit+1.96*prd$se.fit)
+        polygon(c(x[(k+1):n], x[n:(k+1)], x[k+1]),
+                c(lo[k:(n-1)], up[(n-1):k], lo[k]),
+                col=gray(0.7,0.5),
+                border=gray(0.7, 0.5))
+        abline(h=1)
+        axis(2)
+        axis(1, pmatch(xl$x, x), xl$l)
       }
-    }
-    invisible()
   }
+   invisible()
+}
