@@ -50,8 +50,8 @@ stplot <- function(x, sp, d, col, ce,
       )[rev(order(rrxx[2,]-rrxx[1,]))]
   }
   if (missing(col)) {
-    mx <- mean(x, na.rm=TRUE)
     if (length(tsub)>0) {
+      mx <- mean(x, na.rm=TRUE)
       jsub <- sort(((0:(ncol(x)-1))%%tsub) + 1)
       usub <- unique(jsub)
       ccod <- (mx<rowMeans(x[, jsub==usub[1]],
@@ -72,7 +72,8 @@ stplot <- function(x, sp, d, col, ce,
         1-2*abs(ox[ox.ok]-(0.5+nc/2))/nc,
         1-ox[ox.ok]/nc)
     } else {
-      col <- x2rgb(rowMean(x, na.rm=TRUE), u=TRUE)
+      col <- x2rgb(rowMeans(x, na.rm=TRUE), u=TRUE)
+      if (verbose) cat('Defined colors as function of mean.\n')
     }
   }
   if (!any(names(leg.args)=='col'))
