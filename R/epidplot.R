@@ -56,7 +56,11 @@
 #'  649, 675, 721, 737, 772, 827, 850, 865,
 #'  873, 900, 915, 935, 947, 959, 963, 971,
 #'  985, 991, 998, 1007, 1008, 1011, 1018,
-#'  1019, 1020, 1024, 1026, 1034, 1037, 1040)
+#'  1019, 1020, 1024, 1026, 1034, 1037, 1040,
+#'  1043, 1044, 1045, 1046, 1048, 1049, 1050,
+#'  1051, 1052, 1053, 1055, 1055, 1056, 1056,
+#'  1057, 1057, 1058, 1058, 1058, 1058, 1059,
+#'  1059, 1060, 1061, 1061, 1061, 1061)
 #' date <- as.Date('2020-03-15') + 1:length(ns.cases)
 #' pw <- pgamma(0:14, shape=(5/3)^2, scale=3^2/5)
 #' w <- diff(pw)/sum(diff(pw))
@@ -204,6 +208,7 @@ epidplot <-
           dyplot <- dy
           ylm <- c(0, max(dyplot, na.rm=TRUE))
           ffplot <- ff
+          yl <- list(y=pretty(dyplot), l=pretty(dyplot))
         }
         plot(x, dyplot, ylim=ylm,
              pch=19, axes=FALSE,
@@ -221,8 +226,8 @@ epidplot <-
         abline(h=0, lty=2, col=gray(0.5, 0.5))
       }
       if (show[4]) {
-        plot(x, df1r*100, type='l',
-             ylim=range(0, df1r*100, na.rm=TRUE),
+        plot(x, df1r, type='l',
+             ylim=range(0, df1r, na.rm=TRUE),
              xlab=lxlab[[wp]],
              ylab=lylab[[wp]], ...)
         abline(h=0, lty=2, col=gray(0.5, 0.5))

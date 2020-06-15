@@ -51,25 +51,29 @@ stplot <- function(x, sp, d, col, ce,
   }
   if (missing(col)) {
     mx <- mean(x, na.rm=TRUE)
-    jsub <- sort(((0:(ncol(x)-1))%%tsub) + 1)
-    usub <- unique(jsub)
-    ccod <- (mx<rowMeans(x[, jsub==usub[1]],
-                         na.rm=TRUE))+0
-    if (length(usub)>1)
-      for (j in usub[-1])
-        ccod <- ccod +
-      (mx<rowMeans(x[, jsub==usub[j]],
-                   na.rm=TRUE))*(10^(j-1))
-    ox <- pmatch(ccod, unique(sort(ccod)),
-                 duplicates.ok=TRUE)
-    if (verbose) print(table(ox))
-    col <- rep('transparent', n)
-    ox.ok <- !is.na(ox)
-    nc <- max(ox, na.rm=TRUE)
-    col[ox.ok] <- rgb(
-      ox[ox.ok]/nc,
-      1-2*abs(ox[ox.ok]-(0.5+nc/2))/nc,
-      1-ox[ox.ok]/nc)
+    if (length(tsub)>0) {
+      jsub <- sort(((0:(ncol(x)-1))%%tsub) + 1)
+      usub <- unique(jsub)
+      ccod <- (mx<rowMeans(x[, jsub==usub[1]],
+                           na.rm=TRUE))+0
+      if (length(usub)>1)
+        for (j in usub[-1])
+          ccod <- ccod +
+        (mx<rowMeans(x[, jsub==usub[j]],
+                     na.rm=TRUE))*(10^(j-1))
+      ox <- pmatch(ccod, unique(sort(ccod)),
+                   duplicates.ok=TRUE)
+      if (verbose) print(table(ox))
+      ox.ok <- !is.na(ox)
+      nc <- max(ox, na.rm=TRUE)
+      col <- rep('transparent', n)
+      col[ox.ok] <- rgb(
+        ox[ox.ok]/nc,
+        1-2*abs(ox[ox.ok]-(0.5+nc/2))/nc,
+        1-ox[ox.ok]/nc)
+    } else {
+      col <- x2rgb(rowMean(x, na.rm=TRUE), u=TRUE)
+    }
   }
   if (!any(names(leg.args)=='col'))
     leg.args$col <- col
