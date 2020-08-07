@@ -3,7 +3,7 @@
 #'
 #' @docType data
 #'
-#' @usage data(NSCcases)
+#' @usage data(NScases)
 #'
 #' @format An object of class \code{"list"}
 #' containing 'day' (in Date format) and
@@ -14,7 +14,7 @@
 #' @source \href{https://novascotia.ca/coronavirus/}{Oficial website}
 #'
 #' @examples
-#' data(NSCcases)
-#' with(NSCcases, plot(day, cases, pch=8))
+#' data(NScases)
+#' with(NScases, plot(day, cases, pch=8))
 #'
-"NSCcases"
+"NScases"

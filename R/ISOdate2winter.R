@@ -22,7 +22,7 @@
 #' @examples
 #' date <- ISOdate(2019, 1:12, 15)
 #' ISOdate2winter(date)
-#' ISOdate2winter(dae, 'linear')
+#' ISOdate2winter(date, 'linear')
 ISOdate2winter <- function(Date,
                            type=c('cos', 'linear'))
   {

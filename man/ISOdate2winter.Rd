@@ -37,5 +37,5 @@ around July 16 and 1 around January 15.
 \examples{
 date <- ISOdate(2019, 1:12, 15)
 ISOdate2winter(date)
-ISOdate2winter(dae, 'linear')
+ISOdate2winter(date, 'linear')
 }
