@@ -35,8 +35,8 @@
 #' 6th: effective reproduction number.
 #' The first and second plots can be joined into one.
 #' The smoothed line for the second plot is computed
-#' using the \code{mgcv:::gam} function with
-#' \code{mgcv:::s()} on \code{x} considering
+#' using the \code{mgcv::gam} function with
+#' \code{mgcv::s()} on \code{x} considering
 #' \code{family=poisson()}.
 #' The line for the 1st plot is the cumsum of the
 #' line being fitted for the 2nd plot.
@@ -250,18 +250,18 @@ epidplot <-
         n <- length(ff)
         k <- length(w)
         if ((n-k)<k)
-          stop(paset("'length(y)<2*length(w)':",
+          stop(paste("'length(y)<2*length(w)':",
                      "Too few data to fit R_t"))
         ee <- rep(0.01, n+k)
         for (i in 1:n)
           ee[i+1:k] <- ee[i+1:k] + dy[i] * w
         lee <- log(ifelse(ee<0.1, 0.1, ee))
         rt.hat <- c(NA, dy[2:n]/exp(lee[2:n]))
-        dtemp <- list(n=dy[2:n],
-                      i=2:n,
-                      lE=lee[2:n])
-        m2rt <- mgcv:::gam(n ~ s(i), poisson(),
-                           data=dtemp, offset=lE)
+        dtemp <- list(y=dy[2:n], i=2:n)
+        m2rt <- mgcv::gam(
+          y ~ s(i), poisson(),
+          data=dtemp,
+          offset=lee[2:n])
         prd <- predict(m2rt, se.fit=TRUE)
         plot(x, c(rep(NA, k), rt.hat[(k+1):n]), pch=8,
              xlab=lxlab[[wp]], ylab=lylab[[wp]], ...)

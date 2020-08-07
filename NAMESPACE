@@ -1,7 +1,7 @@
     importFrom("grDevices", "dev.interactive", "devAskNewPage", "gray",
                "rgb")
     importFrom("graphics", "abline", "arrows", "axis", "hist", "legend",
-               "lines", "par", "plot", "points")
+               "lines", "par", "plot", "points", "polygon")
     importFrom("stats", "complete.cases", "cor", "poisson", "predict",
                "quantile", "sd")
     exportPattern("^[[:alpha:]]+")

@@ -9,6 +9,6 @@ Description: This package is a collection of functions to
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.1.0), sp
+Depends: R (>= 3.1.0), Matrix, sp
 Imports: Matrix, mgcv
 RoxygenNote: 7.1.0

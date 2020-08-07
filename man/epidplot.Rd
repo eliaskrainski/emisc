@@ -69,8 +69,8 @@ the absolute change.
 6th: effective reproduction number.
 The first and second plots can be joined into one.
 The smoothed line for the second plot is computed
-using the \code{mgcv:::gam} function with
-\code{mgcv:::s()} on \code{x} considering
+using the \code{mgcv::gam} function with
+\code{mgcv::s()} on \code{x} considering
 \code{family=poisson()}.
 The line for the 1st plot is the cumsum of the
 line being fitted for the 2nd plot.
