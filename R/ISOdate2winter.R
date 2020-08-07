@@ -18,6 +18,7 @@
 #'  Autumn: 1 Sep to 30 Nov.
 #' This definition of the seasons gives 0
 #' around July 16 and 1 around January 15.
+#' @export
 #' @examples
 #' date <- ISOdate(2019, 1:12, 15)
 #' ISOdate2winter(date)

@@ -10,6 +10,7 @@
 #' @param ylim the limits for the y axis scale
 #' @param ... additional arguments passed to
 #' \code{plot} and \code{arrows}
+#' @export
 #' @examples
 #' d <- list(x=seq(pi, 3*pi, 0.1))
 #' d$y <- rpois(length(d$x), exp(1 + d$x))

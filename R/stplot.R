@@ -27,6 +27,7 @@
 #' are being reported during the process work
 #' @param ... additional arguments passed to
 #' \code{line} used to plot each time series.
+#' @export
 #' @examples
 #' data(measlesWeserEms, package='surveillance')
 #' if (any(ls()=='measlesWeserEms'))

@@ -8,6 +8,7 @@
 #' @param h the change around the avaluation point
 #' @param x vector with the initial value
 #' @param ... additional arguments to f
+#' @export
 #' @examples
 #' ## Consider confirmed cases of COVID19 in NS
 #' data(NSCcases)

@@ -7,6 +7,7 @@
 #' @param digits integer used to format the breaks.
 #' @param ... additional arguments passed to \code{hist}
 #' @return a table of frequencies.
+#' @export
 #' @examples
 #' htable(rnorm(400))
 htable <- function(x, sep=' to ', digits=2, ...) {

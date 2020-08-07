@@ -13,6 +13,7 @@
 #' @seealso \code{\link{rgb}}
 #' @return 'transparent' if NA or the output of the
 #' \code{\link{rgb}} function
+#' @export
 #' @examples
 #' plot(0:5, pch=19, col=x2rgb(0:5))
 #' plot(0:5, pch=19, col=x2rgb(0:5, c(0,3,6)))

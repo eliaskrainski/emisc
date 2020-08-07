@@ -22,6 +22,7 @@
 #' @param ask logical if ‘TRUE’, the user is _ask_ed
 #' before each plot, see \code{par(ask=.)}.
 #' @param ... additional arguments passed to \code{hist}
+#' @export
 #' @details
 #' This function produces up to 6 plots.
 #' 1st: accumulated, provided y, with smoothed line

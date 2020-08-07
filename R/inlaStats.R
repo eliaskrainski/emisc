@@ -5,6 +5,7 @@
 #' @param r the result of 'inla'
 #' @param idx integer vector to specify which elements
 #' of the local dic, waic and cpo is to be considered.
+#' @export
 inlaStats <- function(r, idx) {
     if(missing(idx))
         idx <- 1:nrow(r$summary.fitted.values)

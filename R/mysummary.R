@@ -7,6 +7,7 @@
 #' @return a named vector with the length of \code{x},
 #' number of NA`s and mean, sd an quantiles if \code{x}
 #' is numeric or frequencies if \code{x} is factor.
+#' @export
 #' @examples
 #' mysummary(iris[,1])
 #' mysummary(iris[,2])
