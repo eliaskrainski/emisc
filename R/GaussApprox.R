@@ -9,7 +9,7 @@
 #' @param h the change around the avaluation point
 #' @param ... additional arguments to f
 #' @examples
-#' data(NSCases)
+#' data(NSCcases)
 #' llf <- function(x)
 #'     dgamma(cases, exp(x), log=TRUE)
 #' n <- length(NSCcases$cases)

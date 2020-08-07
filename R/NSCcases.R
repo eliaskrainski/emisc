@@ -1,3 +1,4 @@
+#' @title NSCcases
 #' Confirmed cases of COVID19 in
 #' Nova Scotia, Canada.
 #'
