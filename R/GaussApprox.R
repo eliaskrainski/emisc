@@ -1,4 +1,4 @@
-#' @title Gaussian Approximation
+#' @title GaussApprox
 #' \code{GaussApprox} computes the Gaussian approximation
 #' given the likelihood function, design matrix and
 #' the prior precision matrix. 
