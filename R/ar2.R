@@ -27,6 +27,8 @@ ar2acf <- function(p1, p2, k) {
 
 #' @title ar2q
 #' @describeIn precision matrix.
+#' @param n is the size of the precision matrix
+#' @param a is a length three vector of parameters
 #'
 #' @examples
 #' ar2q(10, c(1, -1, 0.5))

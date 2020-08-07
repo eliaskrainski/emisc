@@ -6,6 +6,11 @@
 \usage{
 ar2q(n, a)
 }
+\arguments{
+\item{n}{is the size of the precision matrix}
+
+\item{a}{is a length three vector of parameters}
+}
 \description{
 ar2q
 }

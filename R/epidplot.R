@@ -104,9 +104,9 @@ epidplot <-
     }
     dy <- diff(c(0, y))
     dyr <- dy/y
-    ff <- mgcv::gam(n ~ s(d), poisson(),
-                    data=list(n=dy,
-                              d=as.numeric(x))
+    ff <- mgcv::gam(y ~ s(i), poisson(),
+                    data=list(y=dy,
+                              i=as.numeric(x))
                     )$fitted
     cff <- cumsum(ff)
     df1 <- c(NA, diff(ff))

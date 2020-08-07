@@ -29,16 +29,14 @@ given the likelihood function, design matrix and
 the prior precision matrix.
 }
 \examples{
-data(Tokyo, package='INLA')
-if (any(ls()=='Tokyo')) {
-  llfbt <- function(x)
-    dbinom(Tokyo$y, Tokyo$n, plogis(x), log=TRUE)
-  n <- nrow(Tokyo)
-  library(Matrix)
-  Rt <- crossprod(diff(Diagonal(n)))
-  tau <- 14500
-  ga <- GaussApprox(llfbt, Diagonal(n), Rt*tau)
-  with(Tokyo, plot(time, y/n, pch=8))
-  lines(ga$mu)
-}
+data(NSCases)
+llf <- function(x)
+    dgamma(cases, exp(x), log=TRUE)
+n <- length(NSCases$cases)
+library(Matrix)
+Rt <- crossprod(diff(Diagonal(n)))
+tau <- 1500
+ga <- GaussApprox(llf, Diagonal(n), Rt*tau)
+with(NSCases, plot(day, cases, pch=8))
+lines(NSCases$day, ga$mu)
 }
