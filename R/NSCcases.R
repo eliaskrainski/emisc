@@ -1,4 +1,3 @@
-#' @title NSCcases
 #' Confirmed cases of COVID19 in
 #' Nova Scotia, Canada.
 #'
@@ -18,3 +17,4 @@
 #' data(NSCcases)
 #' with(NSCcases, plot(day, cases, pch=8))
 #'
+"NSCcases"
