@@ -2,15 +2,14 @@
 % Please edit documentation in R/GaussApprox.R
 \name{GaussApprox}
 \alias{GaussApprox}
-\title{GaussApprox
-\code{GaussApprox} computes the Gaussian approximation
+\title{Computes the Gaussian approximation
 given the likelihood function, design matrix and
 the prior precision matrix.}
 \usage{
-GaussApprox(f, A, Q, k = 5, h = .Machine$double.eps^0.2, ...)
+GaussApprox(f, A, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL, ...)
 }
 \arguments{
-\item{f}{the function that computes the likelihood}
+\item{f}{a function that computes the likelihood}
 
 \item{A}{the design matrix}
 
@@ -20,23 +19,41 @@ GaussApprox(f, A, Q, k = 5, h = .Machine$double.eps^0.2, ...)
 
 \item{h}{the change around the avaluation point}
 
+\item{x}{vector with the initial value}
+
 \item{...}{additional arguments to f}
 }
 \description{
-GaussApprox
-\code{GaussApprox} computes the Gaussian approximation
+Computes the Gaussian approximation
 given the likelihood function, design matrix and
 the prior precision matrix.
 }
 \examples{
+## Consider confirmed cases of COVID19 in NS
 data(NSCcases)
+with(NSCcases, plot(day, cases, pch=8))
+### likelihood
 llf <- function(x)
-    dgamma(cases, exp(x), log=TRUE)
+    dpois(NSCcases$cases, exp(x), log=TRUE)
 n <- length(NSCcases$cases)
 library(Matrix)
-Rt <- crossprod(diff(Diagonal(n)))
-tau <- 1500
+## precision structure matrix of a RW2 model
+Rt <- crossprod(diff(Diagonal(n), differences=2))
+tau <- 5 ## a reasonable value for the precision
+### perform GA
 ga <- GaussApprox(llf, Diagonal(n), Rt*tau)
-with(NSCcases, plot(day, cases, pch=8))
 lines(NSCases$day, ga$mu)
+
+## Consider Tokyo data from INLA package
+data('Tokyo', package='INLA')
+if (any(ls()=='Tokyo')) {
+  llb <- function(x)
+     dbinom(Tokyo$y, Tokyo$n, plogis(x), log=TRUE)
+  nt <- nrow(Tokyo)
+  Rt <- crossprod(diff(Diagonal(n), differences=2))
+  taup <- 15000
+  gab <- GaussApprox(llb, Diagonal(n), Rt*taup)
+  with(Tokyo, plot(time, y/n, pch=19))
+  lines(Tokyo$time, plogis(gab$mu))
+}
 }
