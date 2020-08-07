@@ -11,7 +11,7 @@ containing 'day' (in Date format) and
 'cases', the integer vector of daily counts.
 }
 \source{
-\href{https://novascotia.ca/coronavirus/}
+\href{https://novascotia.ca/coronavirus/}{Oficial website}
 }
 \usage{
 data(NSCcases)

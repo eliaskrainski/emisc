@@ -11,7 +11,7 @@
 #'
 #' @keywords datasets
 #'
-#' @source \href{https://novascotia.ca/coronavirus/}
+#' @source \href{https://novascotia.ca/coronavirus/}{Oficial website}
 #'
 #' @examples
 #' data(NSCcases)
