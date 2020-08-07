@@ -45,21 +45,21 @@ ga <- GaussApprox(llf, Diagonal(n), Rt*tau)
 lines(NScases$day, ga$mu)
 
 \dontrun{
-#' ## Consider Tokyo data from INLA package
+## Consider Tokyo data from INLA package
 data('Tokyo', package='INLA')
 if (any(ls()=='Tokyo')) {
   llb <- function(x)
      dbinom(Tokyo$y, Tokyo$n, plogis(x), log=TRUE)
-  nt <- nrow(Tokyo)
+  n <- nrow(Tokyo)
 ### cyclic RW1 structure matrix
   R1c <- sparseMatrix(
     i=c(1:n, 2:n,n,1,1:(n-1)),
     j=c(1:n, 1:(n-1),1,n,2:n),
     x=rep(c(2,-1), c(n, 2*n)))
-  ga2 <- GaussApprox(llb, Diagonal(nt), R1c*40)
+  ga2 <- GaussApprox(llb, Diagonal(n), R1c*40)
 ### cyclic RW2 structure matrix
   R2c <- crossprod(R1c)
-  ga2 <- GaussApprox(llb, Diagonal(nt), R2c*15000)
+  ga2 <- GaussApprox(llb, Diagonal(n), R2c*15000)
 ### visualize
   with(Tokyo, plot(time, y/n, pch=19))
   lines(Tokyo$time, plogis(ga1$mu))
