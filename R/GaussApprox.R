@@ -12,12 +12,12 @@
 #' data(NSCases)
 #' llf <- function(x)
 #'     dgamma(cases, exp(x), log=TRUE)
-#' n <- length(NSCases$cases)
+#' n <- length(NSCcases$cases)
 #' library(Matrix)
 #' Rt <- crossprod(diff(Diagonal(n)))
 #' tau <- 1500
 #' ga <- GaussApprox(llf, Diagonal(n), Rt*tau)
-#' with(NSCases, plot(day, cases, pch=8))
+#' with(NSCcases, plot(day, cases, pch=8))
 #' lines(NSCases$day, ga$mu)
 GaussApprox <- function(f, A, Q, k=5,
                         h=.Machine$double.eps^0.2,
