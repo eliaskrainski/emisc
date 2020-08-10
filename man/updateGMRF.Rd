@@ -29,8 +29,8 @@ given the (mixed) design and precision matrices.
 y <- Orange$circumference
 z0 <- model.matrix(~Tree-1, Orange)
 A <- cbind(1, Orange$age, z0*Orange$age)
-Qx <- Diagonal(2 + 5, c(0, 0, rep(3000, 5)))
-Qe <- Diagonal(nrow(Orange), 0.01)
+Qx <- Diagonal(7, c(0,0, rep(2843.56, 5)))
+Qe <- Diagonal(nrow(Orange), 0.0105)
 result <- updateGMRF(y, Qe, A, Qx)
 print(cbind(x=result$mu,
    sd=sqrt(diag(chol2inv(result$L)))))
@@ -43,5 +43,6 @@ print(cbind(x=result$mu,
   res <- inla(ff, data=Orange)
   res$summary.fixed[, 1:2]
   res$summary.random$Tree[, 1:3]
+  round(exp(res$mode$theta), 4)
 }
 }
