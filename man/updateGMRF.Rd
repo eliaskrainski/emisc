@@ -24,25 +24,25 @@ given the (mixed) design and precision matrices.
 \examples{
 ## Consider the Orange dataset
 ## intercept plus linear trend over age with
-## one tred for each tree
-##   y_{ij} = a + b_j age_i + error_{ij}
+## additional trend for each tree j
+##  y_ij = a0 + b0*age_ij + b_j age_ij + e_ij
 y <- Orange$circumference
 z0 <- model.matrix(~Tree-1, Orange)
 A <- cbind(1, Orange$age, z0*Orange$age)
-Qx <- Diagonal(7, c(0,0, rep(2843.56, 5)))
-Qe <- Diagonal(nrow(Orange), 0.0105)
-result <- updateGMRF(y, Qe, A, Qx)
-print(cbind(x=result$mu,
-   sd=sqrt(diag(chol2inv(result$L)))))
+Qx <- Diagonal(7, c(0,0.001, rep(2843.56, 5)))
+Qe <- Diagonal(nrow(Orange), 0.010493)
+up <- updateGMRF(y, Qe, A, Qx)
+cbind(x=up$mu, sd=sqrt(diag(chol2inv(up$L))))
 
 \dontrun{
 ## compare with INLA
   library(INLA)
   ff <- circumference ~ age +
      f(Tree, age, model='iid')
-  res <- inla(ff, data=Orange)
+  res <- inla(ff, data=Orange,
+     control.inla=list(int.strategy='eb'))
   res$summary.fixed[, 1:2]
   res$summary.random$Tree[, 1:3]
-  round(exp(res$mode$theta), 4)
+  round(exp(res$mode$theta), 6)
 }
 }
