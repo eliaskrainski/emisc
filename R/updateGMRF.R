@@ -28,7 +28,7 @@
 #'   res$summary.random$Tree[, 1:3]
 #' }
 updateGMRF <- function(y, Qe, A, Qx) {
-    aqe <- crossprod(A, Qe)
+    aqe <- Matrix::crossprod(A, Qe)
     a2qe <- aqe%*%A
     Qx.new <- Qx + a2qe
     L <- chol(Qx.new)
