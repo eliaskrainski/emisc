@@ -33,7 +33,8 @@ updateGMRF <- function(y, Qe, A, Qx) {
     Qx.new <- Qx + a2qe
     L <- chol(Qx.new)
     W <- aqe%*%y
-    x <- Matrix::solve(L, solve(t(L), W))
+    x <- Matrix::solve(
+        L, Matrix::solve(t(L), W))
     return(list(mu=x, Q=Qx.new, L=L,
                 sldL=sum(log(diag(L)))))
 }
