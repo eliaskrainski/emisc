@@ -14,8 +14,8 @@
 #' data(NScases)
 #' with(NScases, plot(day, cases, pch=8))
 #' ### likelihood
-#' llf <- function(x)
-#'     dpois(NScases$cases, exp(x), log=TRUE)
+#' llf <- function(e)
+#'     dpois(NScases$cases, exp(e), log=TRUE)
 #' n <- length(NScases$cases)
 #' library(Matrix)
 #' ## precision structure matrix of a RW2 model
@@ -37,7 +37,7 @@
 #'     i=c(1:n, 2:n,n,1,1:(n-1)),
 #'     j=c(1:n, 1:(n-1),1,n,2:n),
 #'     x=rep(c(2,-1), c(n, 2*n)))
-#'   ga2 <- GaussApprox(llb, Diagonal(n), R1c*40)
+#'   ga1 <- GaussApprox(llb, Diagonal(n), R1c*40)
 #' ### cyclic RW2 structure matrix
 #'   R2c <- crossprod(R1c)
 #'   ga2 <- GaussApprox(llb, Diagonal(n), R2c*15000)
@@ -59,10 +59,13 @@ GaussApprox <- function(f, A, Q, k=5,
         cc <- (2*fx -fa -fb)/(h^2)
         cc[cc<0] <- 0
         xx <- (fb - fa)/(2*h) + x*cc
-        Qn <- Q + Diagonal(x=cc)
+        print(str(xx))
+        print(dim(A))
+        Qn <- Q + crossprod(A, Diagonal(length(x), cc))%*%A
         L <- chol(Qn)
-        new <- drop(solve(L, solve(t(L), xx)))
-        x <- new
+        axx <- drop(crossprod(A, xx))
+        print(str(axx))
+        x <- drop(solve(L, solve(t(L), axx)))
     }
     return(list(mu=x, bb=xx, cc=cc, Q=Qn, L=L,
                 sldL=sum(log(diag(L)))))
