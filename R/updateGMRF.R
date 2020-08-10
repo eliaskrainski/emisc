@@ -20,21 +20,21 @@
 #' print(cbind(x=result$mu,
 #'    sd=sqrt(diag(chol2inv(result$L)))))
 #'
-#' ## compare with INLA result
 #' \dontrun{
-#'   ff <- circumference ~ f(Tree, age, model='iid')
+#' ## compare with INLA
+#'   library(INLA)
+#'   ff <- circumference ~ age +
+#'      f(Tree, age, model='iid')
 #'   res <- inla(ff, data=Orange)
 #'   res$summary.fixed[, 1:2]
 #'   res$summary.random$Tree[, 1:3]
 #' }
 updateGMRF <- function(y, Qe, A, Qx) {
     aqe <- Matrix::crossprod(A, Qe)
-    a2qe <- aqe%*%A
-    Qx.new <- Qx + a2qe
+    Qx.new <- Qx + aqe%*%A
     L <- chol(Qx.new)
-    W <- aqe%*%y
     x <- Matrix::solve(
-        L, Matrix::solve(t(L), W))
+        L, Matrix::solve(t(L), aqe%*%y))
     return(list(mu=x, Q=Qx.new, L=L,
                 sldL=sum(log(diag(L)))))
 }

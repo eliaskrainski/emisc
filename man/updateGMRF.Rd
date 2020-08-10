@@ -35,9 +35,11 @@ result <- updateGMRF(y, Qe, A, Qx)
 print(cbind(x=result$mu,
    sd=sqrt(diag(chol2inv(result$L)))))
 
-## compare with INLA result
 \dontrun{
-  ff <- circumference ~ f(Tree, age, model='iid')
+## compare with INLA
+  library(INLA)
+  ff <- circumference ~ age +
+     f(Tree, age, model='iid')
   res <- inla(ff, data=Orange)
   res$summary.fixed[, 1:2]
   res$summary.random$Tree[, 1:3]
