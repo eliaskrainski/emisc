@@ -17,7 +17,7 @@
 #' Qx <- Diagonal(2 + 5, c(0, 0, rep(3000, 5)))
 #' Qe <- Diagonal(nrow(Orange), 0.01)
 #' result <- updateGMRF(y, Qe, A, Qx)
-#' print(c(x=result$mu,
+#' print(cbind(x=result$mu,
 #'    sd=sqrt(diag(chol2inv(result$L)))))
 #'
 #' ## compare with INLA result
@@ -29,7 +29,9 @@
 #' }
 updateGMRF <- function(y, Qe, A, Qx) {
     W <- crossprod(A, Qe)%*%y
+##    print(dim(W))
     Qx.new <- Qx + crossprod(A, Qe)%*%A
+  ##  print(dim(Qx.new))
     L <- chol(Qx.new)
     x <- solve(L, solve(t(L), W))
     return(list(mu=x, Q=Qx.new, L=L,
