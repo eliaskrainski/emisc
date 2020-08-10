@@ -59,8 +59,8 @@ GaussApprox <- function(f, A, Q, k=5,
         cc <- (2*fx -fa -fb)/(h^2)
         cc[cc<0] <- 0
         xx <- (fb - fa)/(2*h) + x*cc
-        print(str(xx))
-        print(dim(A))
+##        print(str(xx))
+  ##      print(dim(A))
         Qn <- Q + crossprod(A, Diagonal(length(x), cc))%*%A
         L <- chol(Qn)
         axx <- drop(crossprod(A, xx))
