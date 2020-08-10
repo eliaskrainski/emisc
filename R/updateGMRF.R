@@ -28,12 +28,12 @@
 #'   res$summary.random$Tree[, 1:3]
 #' }
 updateGMRF <- function(y, Qe, A, Qx) {
-    W <- crossprod(A, Qe)%*%y
-##    print(dim(W))
-    Qx.new <- Qx + crossprod(A, Qe)%*%A
-  ##  print(dim(Qx.new))
+    aqe <- crossprod(A, Qe)
+    a2qe <- aqe%*%A
+    Qx.new <- Qx + a2qe
     L <- chol(Qx.new)
-    x <- solve(L, solve(t(L), W))
+    W <- aqe%*%y
+    x <- solve(L, W)###solve(t(L), W))
     return(list(mu=x, Q=Qx.new, L=L,
                 sldL=sum(log(diag(L)))))
 }
