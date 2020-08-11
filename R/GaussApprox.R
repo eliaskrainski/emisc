@@ -50,6 +50,7 @@
 GaussApprox <- function(f, A, Q, k=5,
                         h=.Machine$double.eps^0.2,
                         x=NULL, ...) {
+    dsmall <- .Machine$double.eps^0.5
     if (is.null(x))
         x <- double(ncol(A))
     for (j in 1:k) {
@@ -57,16 +58,14 @@ GaussApprox <- function(f, A, Q, k=5,
         fa  <- f(x - h)
         fb  <- f(x + h)
         cc <- (2*fx -fa -fb)/(h^2)
-        cc[cc<0] <- 0
-        xx <- (fb - fa)/(2*h) + x*cc
-##        print(str(xx))
-  ##      print(dim(A))
-        Qn <- Q + crossprod(A, Diagonal(length(x), cc))%*%A
-        L <- chol(Qn)
-        axx <- drop(crossprod(A, xx))
-        print(str(axx))
-        x <- drop(solve(L, solve(t(L), axx)))
+        cc[cc<dsmall] <- dsmall
+        bb <- (fb - fa)/(2*h) + x*cc
+        Ac <- Matrix::crossprod(
+            A, Matrix::Diagonal(length(cc), cc))
+        Qn <- Q + Ac%*%A
+        L <- Matrix::Cholesky(Qn)
+        x <- drop(solve(Qn, Matrix::crossprod(A, bb)))
     }
-    return(list(mu=x, bb=xx, cc=cc, Q=Qn, L=L,
+    return(list(mu=x, bb=bb, cc=cc, Q=Qn, L=L,
                 sldL=sum(log(diag(L)))))
 }
