@@ -14,10 +14,12 @@
 bs2f <- function(x, x0) {
   i <- findInterval(
     x, x0, all.inside=TRUE)
-  x0 <- c(x0, x0[length(x0)])
+  k <- length(x0)
+  x0 <- c(x0[1]-(x0[2]-x0[1]), x0,
+          x0[k]+(x0[k]-x0[k-1]))
   d <- diff(x0)
   d2 <- diff(x0, 2)
-  ul <- (x-x0[i])/d
+  ul <- (x-x0[i+1])/d[i+1]
   ur <- 1-ul
   xl <- ul^2*d[i+1]/d2[i+1]
   xr <- ur^2*d[i+1]/d2[i]
