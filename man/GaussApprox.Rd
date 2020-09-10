@@ -6,7 +6,7 @@
 given the likelihood function, design matrix and
 the prior precision matrix.}
 \usage{
-GaussApprox(f, A, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL, ...)
+GaussApprox(f, A = NULL, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL, ...)
 }
 \arguments{
 \item{f}{a function that computes the likelihood}
@@ -33,16 +33,16 @@ the prior precision matrix.
 data(NScases)
 with(NScases, plot(day, cases, pch=8))
 ### likelihood
-llf <- function(e)
-    dpois(NScases$cases, exp(e), log=TRUE)
+llf <- function(b)
+    dpois(NScases$cases, exp(B\%*\%b), log=TRUE)
 n <- length(NScases$cases)
-library(Matrix)
+c(sum(llf(rep(0,n))), sum(llf(rep(1,n))))
 ## precision structure matrix of a RW2 model
-Rt <- crossprod(diff(Diagonal(n), differences=2))
+R <- crossprod(diff(Diagonal(n), differences=2))
 tau <- 5 ## a reasonable value for the precision
 ### perform GA
-ga <- GaussApprox(llf, Diagonal(n), Rt*tau)
-lines(NScases$day, ga$mu)
+ga <- GaussApprox(llf, Diagonal(n), R*tau)
+lines(NScases$day, ga$x)
 
 \dontrun{
 ## Consider Tokyo data from INLA package

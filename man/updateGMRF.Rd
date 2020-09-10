@@ -32,7 +32,7 @@ A <- cbind(1, Orange$age, z0*Orange$age)
 Qx <- Diagonal(7, c(0,0.001, rep(2843.56, 5)))
 Qe <- Diagonal(nrow(Orange), 0.010493)
 up <- updateGMRF(y, Qe, A, Qx)
-cbind(x=up$mu, sd=sqrt(diag(chol2inv(up$L))))
+cbind(x=up$mu, sd=sqrt(diag(solve(up$Q))))
 
 \dontrun{
 ## compare with INLA

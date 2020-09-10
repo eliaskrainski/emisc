@@ -10,9 +10,11 @@ stplot(
   d,
   col,
   ce,
-  tsub = 3,
+  tsub = NULL,
   ex = 1,
   ey = 1,
+  add = FALSE,
+  legend = TRUE,
   leg.args = list(x = "bottomleft", lty = 1),
   verbose = FALSE,
   ...
@@ -38,8 +40,11 @@ and blue for those with least growth.}
 the time series. If not provided, the \code{coordinates}
 output applied to \code{sp}.}
 
-\item{tsub}{the number of temporal subdivisions
-to evaluate the growth of each time series.}
+\item{tsub}{if NULL, default, the colors consider
+the average of the time series. If integer,
+specifies the number of temporal subdivisions
+to evaluate the growth of each time series,
+used to define the colors.}
 
 \item{ex}{is a relative expansion factor for
 the x-axis extent}
@@ -47,7 +52,13 @@ the x-axis extent}
 \item{ey}{is a relative expansion factor for
 the y-axis extent}
 
-\item{leg.args}{legend arguments}
+\item{add}{logical indicating if the plot is to
+be added to a current plot}
+
+\item{legend}{logical indicatint if the legend
+is bo be drawn}
+
+\item{leg.args}{legend arguments, used if legend=TRUE}
 
 \item{verbose}{logical to specify if some steps
 are being reported during the process work}

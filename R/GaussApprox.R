@@ -14,16 +14,16 @@
 #' data(NScases)
 #' with(NScases, plot(day, cases, pch=8))
 #' ### likelihood
-#' llf <- function(e)
-#'     dpois(NScases$cases, exp(e), log=TRUE)
+#' llf <- function(b)
+#'     dpois(NScases$cases, exp(B%*%b), log=TRUE)
 #' n <- length(NScases$cases)
-#' library(Matrix)
+#' c(sum(llf(rep(0,n))), sum(llf(rep(1,n))))
 #' ## precision structure matrix of a RW2 model
-#' Rt <- crossprod(diff(Diagonal(n), differences=2))
+#' R <- crossprod(diff(Diagonal(n), differences=2))
 #' tau <- 5 ## a reasonable value for the precision
 #' ### perform GA
-#' ga <- GaussApprox(llf, Diagonal(n), Rt*tau)
-#' lines(NScases$day, ga$mu)
+#' ga <- GaussApprox(llf, Diagonal(n), R*tau)
+#' lines(NScases$day, ga$x)
 #'
 #'\dontrun{
 #' ## Consider Tokyo data from INLA package
@@ -47,25 +47,26 @@
 #'   lines(Tokyo$time, plogis(ga2$mu), col=2)
 #' }
 #' }
-GaussApprox <- function(f, A, Q, k=5,
+GaussApprox <- function(f, A=NULL, Q, k=5,
                         h=.Machine$double.eps^0.2,
                         x=NULL, ...) {
     dsmall <- .Machine$double.eps^0.5
     if (is.null(x))
         x <- double(ncol(A))
     for (j in 1:k) {
+        if (!is.null(A))
+            x <- drop(A %*% x)
         fx <- f(x)
         fa  <- f(x - h)
         fb  <- f(x + h)
         cc <- (2*fx -fa -fb)/(h^2)
         cc[cc<dsmall] <- dsmall
         bb <- (fb - fa)/(2*h) + x*cc
-        Ac <- Matrix::crossprod(
-            A, Matrix::Diagonal(length(cc), cc))
-        Qn <- Q + Ac%*%A
-        L <- Matrix::Cholesky(Qn)
-        x <- drop(solve(Qn, Matrix::crossprod(A, bb)))
+        Qe <- Diagonal(length(cc), cc)
+        AcA <- crossprod(A, Qe)%*%A
+        Qn <- Q + AcA
+        L <- chol(Qn)
+        x <- drop(solve(Qn, crossprod(A, bb)))
     }
-    return(list(mu=x, bb=bb, cc=cc, Q=Qn, L=L,
-                sldL=sum(log(diag(L)))))
+    return(list(x=x, bb=bb, cc=cc, Q=Qn))
 }

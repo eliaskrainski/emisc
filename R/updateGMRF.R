@@ -17,7 +17,7 @@
 #' Qx <- Diagonal(7, c(0,0.001, rep(2843.56, 5)))
 #' Qe <- Diagonal(nrow(Orange), 0.010493)
 #' up <- updateGMRF(y, Qe, A, Qx)
-#' cbind(x=up$mu, sd=sqrt(diag(chol2inv(up$L))))
+#' cbind(x=up$mu, sd=sqrt(diag(solve(up$Q))))
 #'
 #' \dontrun{
 #' ## compare with INLA
@@ -34,8 +34,7 @@ updateGMRF <- function(y, Qe, A, Qx) {
     aqe <- Matrix::crossprod(A, Qe)
     Qx.new <- Qx + aqe%*%A
     L <- chol(Qx.new)
-    x <- Matrix::solve(
-        L, Matrix::solve(t(L), aqe%*%y))
+    x <- Matrix::solve(Qx.new, aqe%*%y)
     return(list(mu=x, Q=Qx.new, L=L,
                 sldL=sum(log(diag(L)))))
 }

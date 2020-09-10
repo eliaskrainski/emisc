@@ -14,7 +14,7 @@ htable <- function(x, sep=' to ', digits=2, ...) {
     h <- hist(x, ...)
     nb <- length(h$breaks)
     fbk <- format(h$breaks, digits=digits)
-    l <- paste0(fbk[-nb], fbk[-1], sep=sep)
+    l <- paste(fbk[-nb], fbk[-1], sep=sep)
     return(data.frame(
         mid=h$mids, freq=h$counts,
         rel=100*h$counts/sum(h$counts),

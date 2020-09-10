@@ -28,9 +28,12 @@ x2rgb <- function(x, breaks=NULL,
     } else {
         if (!is.null(breaks)) {
             x <- findInterval(x, breaks)
+            dx <- length(breaks) + any(x>max(breaks))
+            rx <- c(0, dx)
+        } else {
+            rx <- range(x)
+            dx <- diff(rx)
         }
-        rx <- range(x)
-        dx <- diff(rx)
         if (dx<sqrt(.Machine$double.eps))
             dx <- sqrt(.Machine$double.eps)
         x <- (x-rx[1])/dx
