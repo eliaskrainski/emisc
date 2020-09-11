@@ -61,14 +61,20 @@
 #'     i=c(1:n, 2:n,n,1,1:(n-1)),
 #'     j=c(1:n, 1:(n-1),1,n,2:n),
 #'     x=rep(c(2,-1), c(n, 2*n)))
-#'   ga1 <- GaussApprox(llb, Diagonal(n), R1c*40)
+#'   ga1 <- GaussApprox(llb, n, R1c*40)
+#'   ga1$sd <- sqrt(diag(solve(ga1$Q)))
 #' ### cyclic RW2 structure matrix
 #'   R2c <- crossprod(R1c)
-#'   ga2 <- GaussApprox(llb, Diagonal(n), R2c*15000)
+#'   ga2 <- GaussApprox(llb, n, R2c*15000)
+#'   ga2$sd <- sqrt(diag(solve(ga2$Q)))
 #'### visualize
 #'   with(Tokyo, plot(time, y/n, pch=19))
-#'   lines(Tokyo$time, plogis(ga1$mu))
-#'   lines(Tokyo$time, plogis(ga2$mu), col=2)
+#'   lines(plogis(ga1$x))
+#'   lines(plogis(ga1$x-ga1$sd*2), lty=2)
+#'   lines(plogis(ga1$x+ga1$sd*2), lty=2)
+#'   lines(plogis(ga2$x), col=2)
+#'   lines(plogis(ga2$x-ga2$sd*2), col=2, lty=2)
+#'   lines(plogis(ga2$x-ga2$sd*2), col=2, lty=2)
 #' }
 #' }
 GaussApprox <- function(f, n, Q, k=5,
