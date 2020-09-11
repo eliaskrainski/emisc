@@ -74,7 +74,7 @@
 #'   lines(plogis(ga1$x+ga1$sd*2), lty=2)
 #'   lines(plogis(ga2$x), col=2)
 #'   lines(plogis(ga2$x-ga2$sd*2), col=2, lty=2)
-#'   lines(plogis(ga2$x-ga2$sd*2), col=2, lty=2)
+#'   lines(plogis(ga2$x+ga2$sd*2), col=2, lty=2)
 #' }
 #' }
 GaussApprox <- function(f, n, Q, k=5,
