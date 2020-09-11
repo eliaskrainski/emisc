@@ -35,9 +35,9 @@ ISOdate2winter <- function(Date,
   }
   if (type=='linear') {
     y0 <- as.integer(substr(Date, 1, 4))
-    d0 <- abs(difftime(Date-ISOdate(y0-1, 7, 16, 0, 0),
+    d0 <- abs(difftime(Date, ISOdate(y0-1, 7, 16, 0, 0),
                        units='days'))/183
-    d1 <- abs(difftime(Date-ISOdate(y0, 7, 16, 0, 0),
+    d1 <- abs(difftime(Date, ISOdate(y0, 7, 16, 0, 0),
                        units='days'))/183
     return(pmin(as.numeric(d0), as.numeric(d1)))
   }

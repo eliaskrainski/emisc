@@ -6,22 +6,20 @@
 given the likelihood function, design matrix and
 the prior precision matrix.}
 \usage{
-GaussApprox(f, A = NULL, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL, ...)
+GaussApprox(f, n, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL, ...)
 }
 \arguments{
 \item{f}{a function that computes the likelihood}
 
-\item{A}{the design matrix}
+\item{n}{the number of data for the likelihood}
 
-\item{Q}{the prior precision matrix}
+\item{Q}{the joint precision matrix for the problem}
 
 \item{k}{the number of iterations}
 
 \item{h}{the change around the avaluation point}
 
-\item{x}{vector with the initial value}
-
-\item{...}{additional arguments to f}
+\item{x}{initial value vector}
 }
 \description{
 Computes the Gaussian approximation
@@ -30,19 +28,44 @@ the prior precision matrix.
 }
 \examples{
 ## Consider confirmed cases of COVID19 in NS
-data(NScases)
-with(NScases, plot(day, cases, pch=8))
-### likelihood
-llf <- function(b)
-    dpois(NScases$cases, exp(B\%*\%b), log=TRUE)
-n <- length(NScases$cases)
-c(sum(llf(rep(0,n))), sum(llf(rep(1,n))))
-## precision structure matrix of a RW2 model
-R <- crossprod(diff(Diagonal(n), differences=2))
-tau <- 5 ## a reasonable value for the precision
-### perform GA
-ga <- GaussApprox(llf, Diagonal(n), R*tau)
-lines(NScases$day, ga$x)
+n <- 70
+x <- sin(2*pi*1:n/n)
+y <- rpois(n, exp(1+x))
+par(mfrow=c(1,1), mar=c(2,3,0.5,0.5), mgp=c(2,0.5,0))
+plot(y, pch=19)
+## define the likeihood function
+ llp <- function(e)
+  dpois(y, exp(e), log=TRUE)
+## define the precision matrix structure
+Q2 <- crossprod(diff(Diagonal(n), differences=2))
+ga <- GaussApprox(llp, n, Q2*5000)
+ga$V <- solve(ga$Q)
+ga$sd <- sqrt(diag(ga$V))
+
+## visualize the result
+plot(y, pch=19)
+lines(exp(1+x), col=4, lwd=3)
+lines(exp(ga$x), col=2)
+lines(exp(ga$x - 1.96*ga$sd), col=2, lty=2)
+lines(exp(ga$x + 1.96*ga$sd), col=2, lty=2)
+
+## do it with basis functions
+x0 <- seq(0, n, 10)
+B <- bs2f(1:n, x0)
+
+## precision (as in the INLA review paper)
+Qb <- crossprod(diff(Diagonal(length(x0)-1)))
+tau.e <- exp(12)
+Qx <- rbind(
+  cbind(Diagonal(n, tau.e), tau.e*B),
+  cbind(tau.e*t(B), 2*Qb + tau.e*crossprod(B)))
+
+ga.b <- GaussApprox(llp, n, Qx)
+ga.b$sd <- sqrt(diag(solve(ga.b$Q)))
+
+lines(exp(ga.b$x[1:n]), col=4)
+lines(exp(ga.b$x[1:n] - 1.96*ga.b$sd[1:n]), col=4, lty=2)
+lines(exp(ga.b$x[1:n] + 1.96*ga.b$sd[1:n]), col=4, lty=2)
 
 \dontrun{
 ## Consider Tokyo data from INLA package

@@ -29,5 +29,5 @@ given the partial correlation coefficients.
 
 \examples{
 ar2acf(-1, 0.5, 10)
-ar2acf(c(-1,-1.8), c(0.5, 0.5))
+ar2acf(c(-1,-1.8), c(0.5, 0.5), 10)
 }

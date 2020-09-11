@@ -15,7 +15,7 @@
 #' d <- list(x=seq(pi, 3*pi, 0.1))
 #' d$y <- rpois(length(d$x), exp(1 + d$x))
 #' r <- glm(y~x, poisson, d)
-#' plottfit(d$y, r)
+#' plotfitt(d$y, r)
 plotfitt <- function(o, sfitt, asp=1,
                      xlab='Fitted', ylab='Observed',
                      xlim, ylim, ...) {

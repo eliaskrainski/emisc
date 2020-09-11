@@ -36,10 +36,13 @@
 #' \code{line} used to plot each time series.
 #' @export
 #' @examples
+#'\dontrun{
+#' ## Consider data from the surveillance package
 #' data(measlesWeserEms, package='surveillance')
 #' if (any(ls()=='measlesWeserEms'))
 #'   stplot(t(measlesWeserEms@observed),
 #'          measlesWeserEms@map)
+#' }
 stplot <- function(x, sp, d, col, ce,
                    tsub=NULL, ex=1, ey=1,
                    add=FALSE, legend=TRUE,

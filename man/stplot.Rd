@@ -72,8 +72,11 @@ time series of each spatial unit, the time series
 are shown over the map
 }
 \examples{
+\dontrun{
+## Consider data from the surveillance package
 data(measlesWeserEms, package='surveillance')
 if (any(ls()=='measlesWeserEms'))
   stplot(t(measlesWeserEms@observed),
          measlesWeserEms@map)
+}
 }
