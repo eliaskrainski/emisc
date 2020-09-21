@@ -17,7 +17,7 @@
 #' @export
 #' @md
 ar2acf <- function(a1, a2, k) {
-  r <- cbind(-a1/(1+a2), (a1^2-a2+a2^2)/(1+a2))
+  r <- cbind(-a1/(1+a2), (a1^2-a2-a2^2)/(1+a2))
   if (k>2) {
     r <- cbind(r, matrix(NA, nrow(r), k-2))
     for (j in 3:k)
