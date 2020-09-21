@@ -9,7 +9,10 @@ ar2q(n, a)
 \arguments{
 \item{n}{is the size of the precision matrix}
 
-\item{a}{is a length three vector of parameters}
+\item{a}{length three vector with the parameters
+a_0, a_1 and a_2 in
+a_0 y_t + a_1 y_{t-1} + a_2 y_{t-2} = w_t
+stochastic difference equation.}
 }
 \description{
 ar2q
@@ -20,5 +23,5 @@ ar2q
 }}
 
 \examples{
-ar2q(10, c(1, -1, 0.5))
+ar2q(10, c(1, 1, -0.5))
 }

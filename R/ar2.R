@@ -3,24 +3,25 @@
 #' Compute the autocorrelation function
 #' given the partial correlation coefficients.
 #'
-#' @param p1 first lag correlation.
-#' @param p2 partial correlation of second lag.
-#' @param k max lag to compute it.
+#' @param a1 first difference parameter.
+#' @param a2 second difference parameter or
+#' partial correlation of order two.
+#' @param k max lag to compute the acf.
 #' @return vector of length k or matrix of k columns
 #' with autocorrelation up to lag k for each
 #' parameter pairs, each line if matrix.
 #' @describeIn ar2acf marginal correlation.
 #' @examples
-#' ar2acf(-1, 0.5, 10)
-#' ar2acf(c(-1,-1.8), c(0.5, 0.5), 10)
+#' ar2acf(1, -0.5, 10)
+#' ar2acf(c(1,1.8), c(-0.5, -0.5), 10)
 #' @export
 #' @md
-ar2acf <- function(p1, p2, k) {
-  r <- cbind(p1/(1-p2), (p1^2+p2-p2^2)/(1-p2))
+ar2acf <- function(a1, a2, k) {
+  r <- cbind(-a1/(1+a2), (a1^2-a2+a2^2)/(1+a2))
   if (k>2) {
     r <- cbind(r, matrix(NA, nrow(r), k-2))
     for (j in 3:k)
-      r[,j] <- p1*r[,j-1]+p2*r[,j-2]
+      r[,j] <- -a1*r[,j-1]-a2*r[,j-2]
   }
   return(drop(r))
 }
@@ -28,10 +29,13 @@ ar2acf <- function(p1, p2, k) {
 #' @title ar2q
 #' @describeIn precision matrix.
 #' @param n is the size of the precision matrix
-#' @param a is a length three vector of parameters
+#' @param a length three vector with the parameters
+#' a_0, a_1 and a_2 in
+#'  a_0 y_t + a_1 y_{t-1} + a_2 y_{t-2} = w_t
+#' stochastic difference equation.
 #'
 #' @examples
-#' ar2q(10, c(1, -1, 0.5))
+#' ar2q(10, c(1, 1, -0.5))
 #' @export
 #' @md
 ar2q <- function(n, a) {

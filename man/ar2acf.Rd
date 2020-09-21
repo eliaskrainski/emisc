@@ -4,14 +4,15 @@
 \alias{ar2acf}
 \title{Functions for the ar2 model}
 \usage{
-ar2acf(p1, p2, k)
+ar2acf(a1, a2, k)
 }
 \arguments{
-\item{p1}{first lag correlation.}
+\item{a1}{first difference parameter.}
 
-\item{p2}{partial correlation of second lag.}
+\item{a2}{second difference parameter or
+partial correlation of order two.}
 
-\item{k}{max lag to compute it.}
+\item{k}{max lag to compute the acf.}
 }
 \value{
 vector of length k or matrix of k columns
@@ -28,6 +29,6 @@ given the partial correlation coefficients.
 }}
 
 \examples{
-ar2acf(-1, 0.5, 10)
-ar2acf(c(-1,-1.8), c(0.5, 0.5), 10)
+ar2acf(1, -0.5, 10)
+ar2acf(c(1,1.8), c(-0.5, -0.5), 10)
 }
