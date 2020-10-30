@@ -6,7 +6,7 @@
 given the likelihood function, design matrix and
 the prior precision matrix.}
 \usage{
-GaussApprox(f, n, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL, ...)
+GaussApprox(f, n, Q, k = 5, h = .Machine$double.eps^0.2, x = NULL)
 }
 \arguments{
 \item{f}{a function that computes the likelihood}

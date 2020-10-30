@@ -3,7 +3,7 @@
 #' @param y the outcome
 #' @param Qe the error precision matrix
 #' @param A the design matrix
-#' @param Q the prior precision matrix for the
+#' @param Qx the prior precision matrix for the
 #' latent random (Markov) random field
 #' @export
 #' @examples

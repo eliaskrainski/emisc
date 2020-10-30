@@ -14,7 +14,7 @@ updateGMRF(y, Qe, A, Qx)
 
 \item{A}{the design matrix}
 
-\item{Q}{the prior precision matrix for the
+\item{Qx}{the prior precision matrix for the
 latent random (Markov) random field}
 }
 \description{

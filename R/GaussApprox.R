@@ -79,7 +79,7 @@
 #' }
 GaussApprox <- function(f, n, Q, k=5,
                         h=.Machine$double.eps^0.2,
-                        x=NULL, ...) {
+                        x=NULL) {
     dsmall <- .Machine$double.eps^0.5
     m <- ncol(Q)
     if (is.null(x))

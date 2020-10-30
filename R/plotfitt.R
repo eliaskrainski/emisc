@@ -19,7 +19,7 @@
 plotfitt <- function(o, sfitt, asp=1,
                      xlab='Fitted', ylab='Observed',
                      xlim, ylim, ...) {
-  if (class(sfitt)%in%c('lm', 'glm')) {
+  if (any(class(sfitt)%in%c('lm', 'glm'))) {
     o <- sfitt$model[,1]
     p <- predict(
       sfitt, se.fit=TRUE, type='response')
