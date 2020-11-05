@@ -1,4 +1,4 @@
-#' Functions for Real to Real transform
+#' Function for Real to Real transform
 #' of Real to Positive functions
 #'
 #' Compute the the desired transformation

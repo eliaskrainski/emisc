@@ -2,7 +2,7 @@
 % Please edit documentation in R/transfR.R
 \name{transfR}
 \alias{transfR}
-\title{Functions for Real to Real transform
+\title{Function for Real to Real transform
 of Real to Positive functions}
 \usage{
 transfR(x, transf)
