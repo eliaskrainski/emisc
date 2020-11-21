@@ -5,13 +5,16 @@
 \title{Function for Real to Real transform
 of Real to Positive functions}
 \usage{
-transfR(x, transf)
+transfR(x, transf, inverse = FALSE, base = 2)
 }
 \arguments{
 \item{x}{numeric}
 
 \item{transf}{character name of the function
 that implements the transformation to be applied.}
+
+\item{inverse}{logical indicating if the inverse
+of the transformation is to be performed}
 }
 \value{
 numeric with the transformed input
@@ -23,10 +26,11 @@ the output by the sign of the input.
 }
 \examples{
 transfR(-5:5, 'sqrt')
-transfR(-5:5, 'log10')
+transfR(-5:5, 'log')
 plot(function(x) transfR(x, 'log'), -10, 10)
-plot(function(x) transfR(x, 'log2'), -10, 10,
-     col=2, add=TRUE)
-plot(function(x) transfR(x, 'log10'), -10, 10,
-     col=4, add=TRUE)
+plot(function(x) transfR(x, 'log', base=10),
+     -10, 10, col=4, add=TRUE)
+x <- -30:30/30
+plot(x, transfR(transfR(x, 'log'),
+     'log', inverse=TRUE))
 }
