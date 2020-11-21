@@ -3,7 +3,8 @@
 \name{transfR}
 \alias{transfR}
 \title{Function for Real to Real transform
-of Real to Positive functions}
+of Real to Positive functions
+and its inverse transformation}
 \usage{
 transfR(x, transf, inverse = FALSE, base = 2)
 }

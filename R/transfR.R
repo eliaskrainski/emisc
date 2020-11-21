@@ -1,5 +1,6 @@
 #' Function for Real to Real transform
 #' of Real to Positive functions
+#' and its inverse transformation
 #'
 #' Compute the the desired transformation
 #' for the abs of the input and multiply
@@ -25,6 +26,13 @@
 transfR <- function(x, transf, inverse=FALSE, base=2) {
   s <- sign(x)
   x <- abs(x)
+  if (transf=='sqrt') {
+    if (inverse) {
+      return(s*(x^2))
+    } else {
+      return(s*sqrt(x))
+    }
+  }
   if (transf=='log') {
     if (inverse) {
       x <- base^x
@@ -35,13 +43,6 @@ transfR <- function(x, transf, inverse=FALSE, base=2) {
       ii <- x<2
       x[ii] <- 1 + x[ii]*0.5
       return(log(x, base)*s)
-    }
-    if (transf=='sqrt') {
-      if (inverse) {
-        return(s*(x^2))
-      } else {
-        return(s*sqrt(x))
-      }
     }
   }
 }
