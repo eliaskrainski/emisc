@@ -116,7 +116,7 @@ stplot <- function(x, sp, d, col, ce,
               yi <- ssxy[2]*((x[i,]-yl[1])/ry - 0.5)*ey +
                   mean(b[2,])
               yi <- yi-mean(yi)+ce[i, 2]
-              lines(xi, yi, col=col[i], ...)
+              points(xi, yi, col=col[i], ...)
               segments(xi[1], mean(yi), xi[length(xi)], mean(yi), lty=3)
           }
       } else {
@@ -131,7 +131,7 @@ stplot <- function(x, sp, d, col, ce,
                   xi <- xi0 * ex * ssxy[1] + sp@coords[i, 1]
                   yi <- ssxy[2] * ((x[i,] - yl[1])/ry - 0.5)*ey +
                       sp@coords[i, 2]
-                  lines(xi, yi, col=col[i], ...)
+                  points(xi, yi, col=col[i], ...)
                   segments(xi[1], mean(yi), xi[length(xi)], mean(yi), lty=3)
               }
           }
@@ -156,8 +156,8 @@ stplot <- function(x, sp, d, col, ce,
         for (j in jj) {
           yy <- xyll[3] + (xyll[4]-xyll[3])*
             (x[j,]-yl[1])/diff(yl)
-          lines(xx, yy,
-                col=col[which(j==jj)])
+          points(xx, yy,
+                 col=col[which(j==jj)])
           segments(xx[1], mean(yy), xx[length(xx)], mean(yy), lty=3)
         }
       }
