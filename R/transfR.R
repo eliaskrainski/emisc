@@ -11,6 +11,8 @@
 #' that implements the transformation to be applied.
 #' @param inverse logical indicating if the inverse
 #' of the transformation is to be performed
+#' @param base numeric to be considered as the
+#'  base of the log transformation
 #' @return numeric with the transformed input
 #' @examples
 #' transfR(-5:5, 'sqrt')

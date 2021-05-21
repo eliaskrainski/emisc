@@ -16,6 +16,9 @@ that implements the transformation to be applied.}
 
 \item{inverse}{logical indicating if the inverse
 of the transformation is to be performed}
+
+\item{base}{numeric to be considered as the
+base of the log transformation}
 }
 \value{
 numeric with the transformed input

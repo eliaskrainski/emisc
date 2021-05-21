@@ -4,7 +4,7 @@
 #' points. The default distance computed is in kilometers.
 #' @param x1 longitude of the first location set
 #' @param y1 latitude of the second location set
-#' @param x1 longitude of the first location set
+#' @param x2 longitude of the first location set
 #' @param y2 latitude of the second location set
 #' @param R the radius. Default is 6371 gives the
 #' the resulting distance in kilometers.
