@@ -24,7 +24,7 @@ and latitude it computes the distance between these
 points. The default distance computed is in kilometers.
 }
 \examples{
-\dontrun{
+
 ## Consider some locations
 locs <- rbind(
   Paris=c(2.3295489, 48.8588377),
@@ -35,5 +35,5 @@ locs
 
 apply(locs, 1, function(xy)
   gcDist(xy[1], xy[2], locs[,1], locs[,2]))
-}
+
 }
