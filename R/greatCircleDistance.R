@@ -10,7 +10,7 @@
 #' the resulting distance in kilometers.
 #' @export
 #' @examples
-#'\dontrun{
+#'
 #' ## Consider some locations
 #' locs <- rbind(
 #'   Paris=c(2.3295489, 48.8588377),
@@ -21,7 +21,7 @@
 #'
 #' apply(locs, 1, function(xy)
 #'   gcDist(xy[1], xy[2], locs[,1], locs[,2]))
-#' }
+#'
 gcDist <- function(x1, y1, x2, y2, R=6371) {
   x1 <- x1*pi/180
   x2 <- x2*pi/180
