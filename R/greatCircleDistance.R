@@ -1,4 +1,6 @@
 #' Great circle distance from longlat coordinates
+#' @rdname polyUtils
+#' @aliases gcDist
 #' @description given the coordinates in the longitude
 #' and latitude it computes the distance between these
 #' points. The default distance computed is in kilometers.
@@ -6,8 +8,9 @@
 #' @param y1 latitude of the second location set
 #' @param x2 longitude of the first location set
 #' @param y2 latitude of the second location set
-#' @param R the radius. Default is 6371 gives the
-#' the resulting distance in kilometers.
+#' @param R the radius. Default is 6371 giving the
+#' the resulting distance in kilometers for the
+#' chordal distance around the Earth.
 #' @export
 #' @examples
 #'
