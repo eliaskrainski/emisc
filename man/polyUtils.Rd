@@ -15,8 +15,9 @@ gcDist(x1, y1, x2, y2, R = 6371)
 
 \item{y2}{latitude of the second location set}
 
-\item{R}{the radius. Default is 6371 gives the
-the resulting distance in kilometers.}
+\item{R}{the radius. Default is 6371 giving the
+the resulting distance in kilometers for the
+chordal distance around the Earth.}
 }
 \description{
 given the coordinates in the longitude

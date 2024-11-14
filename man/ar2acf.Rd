@@ -25,9 +25,9 @@ given the partial correlation coefficients.
 }
 \section{Functions}{
 \itemize{
-\item \code{ar2acf}: marginal correlation.
-}}
+\item \code{ar2acf()}: marginal correlation.
 
+}}
 \examples{
 ar2acf(1, -0.5, 10)
 ar2acf(c(1,1.8), c(-0.5, -0.5), 10)

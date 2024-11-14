@@ -19,9 +19,9 @@ ar2q
 }
 \section{Functions}{
 \itemize{
-\item \code{ar2q}: matrix.
-}}
+\item \code{ar2q()}: matrix.
 
+}}
 \examples{
 ar2q(10, c(1, 1, -0.5))
 }

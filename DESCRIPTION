@@ -5,10 +5,10 @@ Version: 0.1.0
 Author: Elias T Krainski
 Maintainer: The package maintainer <eliaskrainski@gmail.com>
 Description: A collection of functions to facilitate data
-and maps access and some plot manipulation
+   and maps access and some plot manipulation
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.4), Matrix, sp, sf
 Imports: mgcv
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
